@@ -1,0 +1,2 @@
+-- Ejemplo para la creación de tablas de forma automática para pruebas
+-- insert into user (name, lastname) values ("Miguel", "Perez");
