@@ -22,7 +22,7 @@ import lombok.Data;
 @Entity
 @Data
 @AllArgsConstructor
-public class accountMovements {
+public class AccountMovements {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
