@@ -4,17 +4,13 @@
  */
 package com.no_country.yow.models;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import lombok.Data;
-import org.hibernate.annotations.GeneratorType;
 import org.hibernate.annotations.GenericGenerator;
-
 
 /**
  *
@@ -23,18 +19,16 @@ import org.hibernate.annotations.GenericGenerator;
 @Entity
 @Data
 public class Account {
-    
+
     @Id
     @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID",strategy = "UUID2")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     private String id;
-    
+
     @Column(columnDefinition = "DECIMAL(10,2) UNSIGNED")
     private Double balance;
-    
+
     @OneToOne
     private Person person;
-    
-    
-    
+
 }

@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -20,13 +21,13 @@ import lombok.Data;
  */
 @Entity
 @Data
+@AllArgsConstructor
 public class accountMovements {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(columnDefinition = "DECIMAL(10,2) UNSIGNED")
     private Double amountMovements;
 
     @Column(nullable = false)
