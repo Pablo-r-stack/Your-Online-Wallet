@@ -9,5 +9,7 @@ public class YowApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(YowApplication.class, args);
 	}
+        
+        
 
 }
