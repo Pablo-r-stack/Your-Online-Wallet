@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class ISerivceCountryImpl implements IServiceCountry{
+public class IServiceCountryImpl implements IServiceCountry{
 
     @Autowired
     private CountriesRepository repository;
