@@ -1,9 +1,8 @@
-import { useState } from 'react'
-
 import './App.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Footer from './components/Footer'
 import HomePage from './pages/HomePage'
+
 
 function App() {
 
@@ -14,7 +13,8 @@ function App() {
       </Routes>
       <Footer></Footer>
     </BrowserRouter>
+
   )
 }
 
-export default App
+export default App;
