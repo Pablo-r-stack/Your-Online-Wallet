@@ -4,15 +4,26 @@
  */
 package com.no_country.yow.exceptions;
 
+import com.no_country.yow.models.Person;
+
 /**
  *
  * @author jpach
  */
 public class CallExceptionYOW {
 
-    public CallExceptionYOW() {
+  public CallExceptionYOW() {
+  }
+    
+    
+  public void fieldEmpty(Person person) throws YOWException {
+
+    if (person.getNumberIdentification() == null) {
+      throw new YOWException("Completa los campos correctamente");
+
     }
     
+  }
     
     
 }

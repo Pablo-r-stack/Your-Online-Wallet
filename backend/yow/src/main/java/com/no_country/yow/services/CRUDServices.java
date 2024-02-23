@@ -3,14 +3,18 @@ package com.no_country.yow.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
+
+import com.no_country.yow.exceptions.YOWException;
+
 public interface CRUDServices<T> {
-  public T save(T data);
+  public ResponseEntity<?> save(T data) throws YOWException;
 
   public List<T> findAll();
 
-  public T updateById(Long id);
+  public ResponseEntity<?> updateById(Long id) throws YOWException;
 
-  public T findById(Long id);
+  public ResponseEntity<?> findById(Long id) throws YOWException;
 
 
 }
