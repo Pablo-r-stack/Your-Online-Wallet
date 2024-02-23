@@ -34,7 +34,7 @@ public class Person {
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false, unique = true)
-    private Long numberIdentication;
+    private Long numberIdentification;
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
