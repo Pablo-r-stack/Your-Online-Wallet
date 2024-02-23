@@ -12,18 +12,21 @@ import com.no_country.yow.models.Person;
  */
 public class CallExceptionYOW {
 
-  public CallExceptionYOW() {
-  }
-    
-    
-  public void fieldEmpty(Person person) throws YOWException {
+    public CallExceptionYOW() {
+    }
 
-    if (person.getNumberIdentification() == null) {
-      throw new YOWException("Completa los campos correctamente");
+    public void fieldEmpty(Person person) throws YOWException {
+
+        if (person.getName().trim().isEmpty()
+                || person.getLastName().trim().isEmpty()
+                || person.getNumberIdentification() == null
+                || person.getEmail().trim().isEmpty()
+                || person.getPassword().trim().isEmpty()
+                || person.getCountry().getId() <= 0) {
+            throw new YOWException("Completa los campos correctamente");
+
+        }
 
     }
-    
-  }
-    
-    
+
 }

@@ -33,6 +33,10 @@ public class HomeController {
   @Autowired
   private PersonService beanPerson;
 
+  public HomeController(PersonService personService) {
+    this.beanPerson = personService;
+    }
+
   @PostMapping("/register")
   public ResponseEntity<?> register(@RequestBody Person person) throws YOWException {
 

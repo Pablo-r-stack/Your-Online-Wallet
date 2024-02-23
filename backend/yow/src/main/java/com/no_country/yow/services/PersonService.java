@@ -26,9 +26,13 @@ import org.springframework.stereotype.Service;
 // @Slf4j
 public class PersonService implements CRUDServices<Person> {
 
-  @Autowired
+
   private PersonRepository personRepository;
   private CallExceptionYOW valid = new CallExceptionYOW();
+
+  public PersonService(PersonRepository personRepositoryMock) {
+    this.personRepository = personRepositoryMock;
+  }
 
   @SuppressWarnings("null")
   @Override
@@ -50,7 +54,7 @@ public class PersonService implements CRUDServices<Person> {
 
   @Override
   public List<Person> findAll() {
-    throw new UnsupportedOperationException("Unimplemented method 'findAll'");
+    return personRepository.findAll();
   }
 
   @Override
@@ -62,5 +66,9 @@ public class PersonService implements CRUDServices<Person> {
   public ResponseEntity<?> findById(Long id) throws YOWException {
     throw new UnsupportedOperationException("Unimplemented method 'findById'");
   }
+
+/*  public ResponseEntity<?> updateByDocument(){
+
+  }*/
 
 }
