@@ -4,6 +4,7 @@
  */
 package com.no_country.yow.services;
 
+import com.no_country.yow.email.SendEmail;
 import com.no_country.yow.exceptions.CallExceptionYOW;
 import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
@@ -32,6 +33,8 @@ public class PersonService implements CRUDServices<Person> {
 
   private final PersonRepository personRepository;
   private final CallExceptionYOW valid = new CallExceptionYOW();
+
+  private SendEmail sendEmail;
 
   public PersonService(PersonRepository personRepositoryMock) {
     this.personRepository = personRepositoryMock;
@@ -77,23 +80,36 @@ public class PersonService implements CRUDServices<Person> {
   * se procede actualizar los datos solicitados*/
 
   @Transactional
-  public ResponseEntity<?> changePassword(Long numdocument, String newPassword) throws YOWException{
+  public ResponseEntity<?> changePassword(Long numdocument, String newPassword) throws YOWException {
     try {
       Optional<Person> optPerson = Optional.ofNullable(personRepository.findByNumberDocument(numdocument));
-      valid.noFound(optPerson,numdocument,newPassword);
+      valid.noFound(optPerson, numdocument, newPassword);
 
-      personRepository.updatePassword(numdocument,newPassword);
+      personRepository.updatePassword(numdocument, newPassword);
+
+      sendEmail = new SendEmail();
+
+      sendEmail.createEmail(optPerson.get().getEmail(), newPassword);
+      sendEmail.sendEmail();
 
 
-    return ResponseEntity.ok().body("Contraseña Actualizada Exitosamente");
-    }catch (YOWException e){
+      return ResponseEntity.ok().body("Contraseña Actualizada Exitosamente");
+    } catch (YOWException e) {
 
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
 
     }
 
 
+
   }
+
+  public void sendEmail(){
+
+
+
+  }
+
 
 
 }

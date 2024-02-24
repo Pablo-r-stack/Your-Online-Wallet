@@ -10,11 +10,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.mockito.stubbing.OngoingStubbing;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 
@@ -31,10 +28,10 @@ class PersonServiceTest {
         personService = new PersonService(personRepositoryMock);
         homeController = new HomeController(personService);
     }
-/*
+
     @Test
     void register() throws YOWException {
-
+        // Creación de objetos simulados
         Countries c = new Countries();
         c.setId(1L);
         c.setCountry("Colombia");
@@ -49,17 +46,19 @@ class PersonServiceTest {
         p.setRol(Roles.Administrator);
         p.setCountry(c);
 
+        // Configuración del comportamiento del repositorio mock
         Mockito.when(personRepositoryMock.save(Mockito.any())).thenReturn(p);
 
+        // Ejecución del método a probar
         ResponseEntity<?> result = homeController.register(p);
 
-        log.info("Objecto: " + result.toString());
-
+        // Verificación del resultado
         assertEquals(HttpStatus.CREATED, result.getStatusCode());
-    }*/
+    }
 
     @Test
     void changePassWord() throws YOWException {
+        // Creamos el país y la persona simulados
         Countries c = new Countries();
         c.setId(1L);
         c.setCountry("Colombia");
@@ -74,23 +73,23 @@ class PersonServiceTest {
         p.setRol(Roles.Administrator);
         p.setCountry(c);
 
-
+        // Definimos la nueva contraseña y el número de documento
         String pass = "MockitoTest";
         Long numberDocument = 1002193737L;
 
+        // Simulamos el comportamiento del método findByNumberDocument()
+        Mockito.when(personRepositoryMock.findByNumberDocument(numberDocument)).thenReturn(p);
 
+        // Simulamos el comportamiento del método updatePassword()
+        Mockito.doNothing().when(personRepositoryMock).updatePassword(numberDocument, pass);
 
-        Mockito.when(personRepositoryMock.save(Mockito.any())).thenReturn(p);
-        ResponseEntity<?> result = homeController.register(p);
-
-
-        Mockito.doNothing().when(personRepositoryMock).updatePassword(Mockito.anyLong(), Mockito.anyString());
-
-
+        // Ejecutamos el método a probar
         ResponseEntity<?> result2 = homeController.changePassword(numberDocument, pass);
 
+        log.info("Objeto " + result2.toString());
 
+        // Verificamos si la contraseña se actualizó correctamente
         assertEquals(HttpStatus.OK, result2.getStatusCode());
         assertEquals("Contraseña Actualizada Exitosamente", result2.getBody());
-    }
+}
 }
