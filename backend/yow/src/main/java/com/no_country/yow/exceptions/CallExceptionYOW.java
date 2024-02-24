@@ -5,11 +5,16 @@
 package com.no_country.yow.exceptions;
 
 import com.no_country.yow.models.Person;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.Optional;
 
 /**
  *
  * @author jpach
  */
+
+@Slf4j
 public class CallExceptionYOW {
 
     public CallExceptionYOW() {
@@ -27,6 +32,16 @@ public class CallExceptionYOW {
 
         }
 
+    }
+
+    public void noFound(Optional<Person> person, Long numdocument, String newPassword) throws YOWException{
+
+        if(person.isEmpty()){
+            throw  new YOWException("No se ha encontrado coincidencia para el documento: " + numdocument);
+        }else if(newPassword.trim().isEmpty() || newPassword.length() <= 10){
+            throw  new YOWException("Ingrese una contraseña valida, con 10 caracteres minimo");
+
+        }
     }
 
 }

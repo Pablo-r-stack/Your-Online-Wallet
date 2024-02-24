@@ -4,9 +4,14 @@
  */
 package com.no_country.yow.repositories;
 
+import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
@@ -14,5 +19,12 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface PersonRepository extends JpaRepository<Person, Long>{
+
+    @Query("SELECT p FROM Person p WHERE p.numberIdentification = ?1")
+    public Person findByNumberDocument(Long numdocument) throws YOWException;
+
+    @Modifying
+    @Query("UPDATE Person p SET p.password = ?2  WHERE p.numberIdentification = ?1")
+    public void updatePassword(Long numberDocument,String newPassword) throws YOWException;
     
 }

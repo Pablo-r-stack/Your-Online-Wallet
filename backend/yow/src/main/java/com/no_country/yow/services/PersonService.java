@@ -12,28 +12,33 @@ import com.no_country.yow.repositories.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  *
  * @author jpach
  */
 @Service
-// @Slf4j
+@Slf4j
 public class PersonService implements CRUDServices<Person> {
 
 
-  private PersonRepository personRepository;
-  private CallExceptionYOW valid = new CallExceptionYOW();
+  private final PersonRepository personRepository;
+  private final CallExceptionYOW valid = new CallExceptionYOW();
 
   public PersonService(PersonRepository personRepositoryMock) {
     this.personRepository = personRepositoryMock;
   }
 
+
+  /*En este metodo nos permite insertar el registro del cliente en la base de datos*/
   @SuppressWarnings("null")
   @Override
   public ResponseEntity<?> save(Person person) throws YOWException {
@@ -67,8 +72,28 @@ public class PersonService implements CRUDServices<Person> {
     throw new UnsupportedOperationException("Unimplemented method 'findById'");
   }
 
-/*  public ResponseEntity<?> updateByDocument(){
 
-  }*/
+  /*Realizamos un busqueda en la tabla persona donde nos devuelve el registro por el numero del documento si se encuentra
+  * se procede actualizar los datos solicitados*/
+
+  @Transactional
+  public ResponseEntity<?> changePassword(Long numdocument, String newPassword) throws YOWException{
+    try {
+      Optional<Person> optPerson = Optional.ofNullable(personRepository.findByNumberDocument(numdocument));
+      valid.noFound(optPerson,numdocument,newPassword);
+
+      personRepository.updatePassword(numdocument,newPassword);
+
+
+    return ResponseEntity.ok().body("Contraseña Actualizada Exitosamente");
+    }catch (YOWException e){
+
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+
+    }
+
+
+  }
+
 
 }

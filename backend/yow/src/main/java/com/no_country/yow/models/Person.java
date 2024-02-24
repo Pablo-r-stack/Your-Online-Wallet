@@ -13,6 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Size;
 
 import com.no_country.yow.enums.Roles;
 
@@ -35,6 +37,8 @@ public class Person {
     private String lastName;
     @Column(nullable = false, unique = true)
     private Long numberIdentification;
+    @Email
+    @Size(max = 80)
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
