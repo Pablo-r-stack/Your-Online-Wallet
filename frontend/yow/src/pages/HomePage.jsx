@@ -11,7 +11,7 @@ export default function HomePage() {
     return (
         <body className='container max-w-full h-screen font-sans'>
           <section className='bg-zinc-900 h-2/4 p-8 lg:p-20 flex flex-col lg:flex-row'>
-            <div className='text-slate-200 w-full lg:w-2/4 mt-8 lg:mt-0 ml-0 lg:ml-8'>
+            <div className='text-gray-100 w-full lg:w-2/4 mt-8 lg:mt-0 ml-0 lg:ml-8'>
               <h1 className='text-3xl lg:text-7xl font-bold'>Bienvenido a tu nueva Economía</h1>
               <p className='text-lg lg:text-2xl my-4'>Vive tu Experiencia Yow.</p>
             </div>
@@ -22,9 +22,9 @@ export default function HomePage() {
           <section className='h-2/4 text-zinc-900  text-center flex flex-col justify-center'>
             <h2 className='text-3xl lg:text-5xl font-medium my-4 lg:my-10'>Bienvenido a Your Online Wallet</h2>
             <div className='space-y-4 lg:space-x-10 lg:space-y-0 flex flex-col lg:flex-row items-center justify-center'>
-              <Button text="Registrar" onClick={() => handleRedirect('/')} />
-              <Button text="Login" onClick={() => handleRedirect('/')} />
-              <Button text="Acerca de" onClick={() => handleRedirect('/')} />
+              <Button text="Registrar" onClick={() => handleRedirect('/register')} />
+              <Button text="Login" onClick={() => handleRedirect('/login')} />
+              <Button text="Acerca de" onClick={() => handleRedirect('/faq')} />
             </div>
           </section>
         </body>

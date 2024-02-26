@@ -28,8 +28,8 @@ public class Bank {
     @Column(nullable = false)
     private String nameBank;
     
-    @Column(nullable = false)
-    private String numberCard; 
+    //@Column(nullable = false)
+    //private String numberCard;
     
     @ManyToOne
     private Services serviceBank;

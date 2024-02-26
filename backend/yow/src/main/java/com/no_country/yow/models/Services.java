@@ -30,7 +30,5 @@ public class Services {
     
     @OneToMany
     private List<Account> accountPerson;
-            
-    
     
 }
