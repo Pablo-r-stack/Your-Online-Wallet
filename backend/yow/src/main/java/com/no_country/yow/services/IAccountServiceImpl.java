@@ -18,7 +18,7 @@ public class IAccountServiceImpl implements IAccountService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<AccountMovements> findAll() {
+    public List<Account> findAll() {
         return repository.findAll();
     }
 

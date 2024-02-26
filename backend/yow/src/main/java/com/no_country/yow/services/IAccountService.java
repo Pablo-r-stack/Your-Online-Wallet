@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface IAccountService {
-    List<AccountMovements> findAll();
+    List<Account> findAll();
     Optional<Account> findById(String id);
     Optional<Account> save(Account account);
     void delete(Account account);
