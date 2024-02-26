@@ -1,6 +1,7 @@
 package com.no_country.yow.services;
 
 import com.no_country.yow.models.Account;
+import com.no_country.yow.models.AccountMovements;
 import com.no_country.yow.repositories.AccountRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ public class IAccountServiceImpl implements IAccountService{
 
     @Override
     @Transactional(readOnly = true)
-    public List<Account> findAll() {
+    public List<AccountMovements> findAll() {
         return repository.findAll();
     }
 

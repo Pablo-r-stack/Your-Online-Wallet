@@ -16,6 +16,8 @@ public class AccountController {
     @Autowired
     private IAccountService service;
 
+    /* ----- CRUD ----- */
+
     @GetMapping
     public ResponseEntity<?> list(){
         return ResponseEntity.ok(service.findAll());
@@ -30,7 +32,7 @@ public class AccountController {
     }
 
     @PostMapping
-    public ResponseEntity<?> create(@RequestBody  Account account){
+    public ResponseEntity<?> create(@RequestBody Account account){
         return ResponseEntity.status(HttpStatus.CREATED).body(service.save(account));
     }
 
