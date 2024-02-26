@@ -27,7 +27,7 @@ public class Countries {
   private Long id;
 
   @Column(nullable = false, unique = true)
-  @JoinColumn(name = "")
+  //@JoinColumn(name = "")
   private String country;
 
 }
