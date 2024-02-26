@@ -22,8 +22,8 @@ export default function HomePage() {
           <section className='h-2/4 text-zinc-900  text-center flex flex-col justify-center'>
             <h2 className='text-3xl lg:text-5xl font-medium my-4 lg:my-10'>Bienvenido a Your Online Wallet</h2>
             <div className='space-y-4 lg:space-x-10 lg:space-y-0 flex flex-col lg:flex-row items-center justify-center'>
-              <Button text="Registrar" onClick={() => handleRedirect('/')} />
-              <Button text="Login" onClick={() => handleRedirect('/')} />
+              <Button text="Registrar" onClick={() => handleRedirect('/register')} />
+              <Button text="Login" onClick={() => handleRedirect('/login')} />
               <Button text="Acerca de" onClick={() => handleRedirect('/faq')} />
             </div>
           </section>
