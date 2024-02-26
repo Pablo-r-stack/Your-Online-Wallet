@@ -21,10 +21,10 @@ import org.springframework.transaction.annotation.Transactional;
 public interface PersonRepository extends JpaRepository<Person, Long>{
 
     @Query("SELECT p FROM Person p WHERE p.numberIdentification = ?1")
-    public Person findByNumberDocument(Long numdocument) throws YOWException;
+    public Person findByNumberDocument(String numdocument) throws YOWException;
 
     @Modifying
     @Query("UPDATE Person p SET p.password = ?2  WHERE p.numberIdentification = ?1")
-    public void updatePassword(Long numberDocument,String newPassword) throws YOWException;
+    public void updatePassword(String numberDocument,String newPassword) throws YOWException;
     
 }

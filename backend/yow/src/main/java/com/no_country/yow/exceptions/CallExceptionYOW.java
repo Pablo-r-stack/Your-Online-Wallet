@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.Optional;
 
 /**
- *
  * @author jpach
  */
 
@@ -34,14 +33,23 @@ public class CallExceptionYOW {
 
     }
 
-    public void noFound(Optional<Person> person, Long numdocument, String newPassword) throws YOWException{
+    public void noFound(Optional<Person> person, String numdocument, String newPassword) throws YOWException {
 
-        if(person.isEmpty()){
-            throw  new YOWException("No se ha encontrado coincidencia para el documento: " + numdocument);
-        }else if(newPassword.trim().isEmpty() || newPassword.length() <= 10){
-            throw  new YOWException("Ingrese una contraseña valida, con 10 caracteres minimo");
+        if (person.isEmpty()) {
+            throw new YOWException("No se ha encontrado coincidencia para el documento: " + numdocument);
+        } else if (newPassword.trim().isEmpty() || newPassword.length() <= 10) {
+            throw new YOWException("Ingrese una contraseña valida, con 10 caracteres minimo");
+
 
         }
     }
+
+    public void isUserExist(Person person) throws YOWException {
+
+         if (person == null) {
+            throw new RuntimeException("No se ha encontrado coincidencia para el usuario");
+        }
+    }
+
 
 }

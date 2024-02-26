@@ -36,7 +36,7 @@ public class Person {
     @Column(nullable = false)
     private String lastName;
     @Column(nullable = false, unique = true)
-    private Long numberIdentification;
+    private String numberIdentification;
     @Email
     @Size(max = 80)
     @Column(nullable = false, unique = true)

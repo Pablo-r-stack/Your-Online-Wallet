@@ -12,18 +12,23 @@ import com.no_country.yow.repositories.PersonRepository;
 
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 /**
- *
  * @author jpach
  */
 @Service
@@ -31,84 +36,68 @@ import org.springframework.transaction.annotation.Transactional;
 public class PersonService implements CRUDServices<Person> {
 
 
-  private final PersonRepository personRepository;
-  private final CallExceptionYOW valid = new CallExceptionYOW();
+    private final PersonRepository personRepository; // Repositorio para acceder a la capa de persistencia de personas
+    private final CallExceptionYOW valid = new CallExceptionYOW(); // Instancia de una clase que maneja excepciones específicas
 
-  private SendEmail sendEmail;
+    @Autowired
+    private PasswordEncoder encrypt;
+    private SendEmail sendEmail; // Instancia de la clase SendEmail para enviar correos electrónicos
 
-  public PersonService(PersonRepository personRepositoryMock) {
-    this.personRepository = personRepositoryMock;
-  }
-
-
-  /*En este metodo nos permite insertar el registro del cliente en la base de datos*/
-  @SuppressWarnings("null")
-  @Override
-  public ResponseEntity<?> save(Person person) throws YOWException {
-
-    try {
-
-      valid.fieldEmpty(person);
-      personRepository.save(person);
-
-      return ResponseEntity.status(HttpStatus.CREATED).body(person);
-
-    } catch (YOWException e) {
-
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-
-    }
-  }
-
-  @Override
-  public List<Person> findAll() {
-    return personRepository.findAll();
-  }
-
-  @Override
-  public ResponseEntity<?> updateById(Long id) throws YOWException {
-    throw new UnsupportedOperationException("Unimplemented method 'updateById'");
-  }
-
-  @Override
-  public ResponseEntity<?> findById(Long id) throws YOWException {
-    throw new UnsupportedOperationException("Unimplemented method 'findById'");
-  }
-
-
-  /*Realizamos un busqueda en la tabla persona donde nos devuelve el registro por el numero del documento si se encuentra
-  * se procede actualizar los datos solicitados*/
-
-  @Transactional
-  public ResponseEntity<?> changePassword(Long numdocument, String newPassword) throws YOWException {
-    try {
-      Optional<Person> optPerson = Optional.ofNullable(personRepository.findByNumberDocument(numdocument));
-      valid.noFound(optPerson, numdocument, newPassword);
-
-      personRepository.updatePassword(numdocument, newPassword);
-
-      sendEmail = new SendEmail();
-
-      sendEmail.createEmail(optPerson.get().getEmail(), newPassword);
-      sendEmail.sendEmail();
-
-
-      return ResponseEntity.ok().body("Contraseña Actualizada Exitosamente");
-    } catch (YOWException e) {
-
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-
+    // Constructor que recibe un repositorio de personas como argumento
+    public PersonService(PersonRepository personRepository) {
+        this.personRepository = personRepository; // Inicialización del repositorio de personas
     }
 
+    // Método para guardar una persona en la base de datos
+    @Override
+    public ResponseEntity<?> save(Person person) throws YOWException {
+        try {
+            valid.fieldEmpty(person); // Validar campos vacíos de la persona
+            person.setPassword(encrypt.encode(person.getPassword()));
+            personRepository.save(person); // Guardar la persona en la base de datos
+            return ResponseEntity.status(HttpStatus.CREATED).body(person); // Devolver respuesta exitosa con la persona guardada
+        } catch (YOWException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage()); // Manejar excepción en caso de error
+        }
+    }
 
+    // Método para obtener todas las personas
+    @Override
+    public List<Person> findAll() {
+        return personRepository.findAll(); // Devolver todas las personas almacenadas en la base de datos
+    }
 
-  }
+    // Método para actualizar una persona por su ID (no implementado)
+    @Override
+    public ResponseEntity<?> updateById(Long id) throws YOWException {
+        throw new UnsupportedOperationException("Unimplemented method 'updateById'"); // Lanzar excepción de operación no implementada
+    }
 
-  public void sendEmail(){
+    // Método para buscar una persona por su ID (no implementado)
+    @Override
+    public ResponseEntity<?> findById(Long id) throws YOWException {
+        throw new UnsupportedOperationException("Unimplemented method 'findById'"); // Lanzar excepción de operación no implementada
+    }
 
+    // Método para cambiar la contraseña de una persona
+    @Transactional // Anotación para indicar que este método requiere una transacción
+    public ResponseEntity<?> changePassword(String numdocument, String newPassword) throws YOWException {
+        try {
+            Optional<Person> optPerson = Optional.ofNullable(personRepository.findByNumberDocument(numdocument)); // Buscar una persona por su número de documento
+            valid.noFound(optPerson, numdocument, newPassword); // Validar si la persona no se encuentra o si la nueva contraseña está vacía
 
+            personRepository.updatePassword(numdocument, newPassword); // Actualizar la contraseña de la persona en la base de datos
 
-  }
+            sendEmail = new SendEmail(); // Inicializar una instancia de SendEmail
+
+            sendEmail.createEmail(optPerson.get().getEmail(), newPassword); // Crear y configurar un correo electrónico para notificar el cambio de contraseña
+            sendEmail.sendEmail(); // Enviar el correo electrónico
+
+            return ResponseEntity.ok().body("Contraseña Actualizada Exitosamente"); // Devolver respuesta exitosa
+        } catch (YOWException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage()); // Manejar excepción en caso de error
+        }
+    }
 
 
 

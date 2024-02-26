@@ -1,17 +1,15 @@
 package com.no_country.yow.controllers;
 
+import com.no_country.yow.models.Person;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
 public class PersonController {
 
-    @PutMapping("/updatePassword")
-    public ResponseEntity<?> updatePassword(@PathVariable("document") Long document){
+    @PutMapping("/modifiedUser")
+    public ResponseEntity<?> updatePassword(@RequestBody Person person){
 
 
         return ResponseEntity.ok("");

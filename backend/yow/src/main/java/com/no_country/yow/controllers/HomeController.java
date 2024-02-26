@@ -7,6 +7,7 @@ package com.no_country.yow.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import com.no_country.yow.exceptions.CallExceptionYOW;
@@ -28,16 +29,17 @@ public class HomeController {
   @Autowired
   private PersonService beanPerson;
 
+
   public HomeController(PersonService personService) {
     this.beanPerson = personService;
     }
 
 
-    @GetMapping("/login")
+/*    @PostMapping("/login")
     public ResponseEntity<?> login(){
 
-    return ResponseEntity.ok("");
-    }
+    return ResponseEntity.ok("Hoala");
+    }*/
 
     /*Endpoint de registro de usuario*/
   @PostMapping("/register")
@@ -48,7 +50,7 @@ public class HomeController {
   }
 
   @PostMapping("/change-password")
-  public ResponseEntity<?> changePassword(@RequestParam("numDocument") Long numDocument, @RequestParam("password") String newPassword) throws YOWException {
+  public ResponseEntity<?> changePassword(@RequestParam("numDocument") String numDocument, @RequestParam("password") String newPassword) throws YOWException {
 
     return beanPerson.changePassword(numDocument,newPassword);
   }
