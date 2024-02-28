@@ -51,4 +51,8 @@ public class Person {
     public Person() {
         this.virtualWallet = null;
     }
+
+    public void addVirtualWallet(VirtualWallet virtualWallet){
+        this.virtualWallet = virtualWallet;
+    }
 }
