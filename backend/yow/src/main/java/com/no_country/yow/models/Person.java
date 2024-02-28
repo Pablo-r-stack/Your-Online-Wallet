@@ -9,6 +9,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.no_country.yow.enums.Roles;
 
 import lombok.Data;
@@ -46,6 +47,7 @@ public class Person {
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "virtual_id")
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private VirtualWallet virtualWallet;
 
     public Person() {
