@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Entity
 @Data
-public class Movements {
+public class Movement {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

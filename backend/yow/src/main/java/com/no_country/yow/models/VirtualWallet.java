@@ -4,6 +4,7 @@ import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -18,5 +19,13 @@ public class VirtualWallet {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     @JoinColumn(name = "service_id")
-    private List<Services> services;
+    private List<Service> services;
+
+    public VirtualWallet() {
+        this.services = new ArrayList<>();
+    }
+
+    public void addService(Service service){
+        this.services.add(service);
+    }
 }

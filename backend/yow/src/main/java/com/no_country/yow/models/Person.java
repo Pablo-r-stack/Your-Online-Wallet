@@ -48,4 +48,7 @@ public class Person {
     @JoinColumn(name = "virtual_id")
     private VirtualWallet virtualWallet;
 
+    public Person() {
+        this.virtualWallet = null;
+    }
 }
