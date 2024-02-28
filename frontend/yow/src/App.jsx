@@ -6,6 +6,7 @@ import Navbar1 from './components/Navbar1'
 import Faq from './pages/Faq'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Dashboard from './pages/Dashboard'
 
 function App() {
 
@@ -19,6 +20,7 @@ function App() {
             <Route path='/faq' element={<Faq />} />
             <Route path='/login' element={<Login />} />
             <Route path='/register' element={<Register />} />
+            <Route path='/dashboard' element={<Dashboard />} />
           </Routes>
         </div>
         <Footer />
