@@ -5,14 +5,7 @@
 package com.no_country.yow.models;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
@@ -49,6 +42,10 @@ public class Person {
     @Enumerated(EnumType.STRING)
     private Roles rol;
     
-    
-    
+    // Falta el documento de validación
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "virtual_id")
+    private VirtualWallet virtualWallet;
+
 }
