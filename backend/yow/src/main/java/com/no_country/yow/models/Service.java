@@ -5,13 +5,10 @@
 package com.no_country.yow.models;
 
 
+import java.util.ArrayList;
 import java.util.List;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
+
 import lombok.Data;
 /**
  *
@@ -19,7 +16,7 @@ import lombok.Data;
  */
 @Entity
 @Data
-public class Services {
+public class Service {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -28,7 +25,16 @@ public class Services {
     @Column(nullable = false , unique = true)
     private String nameService;
     
-    @OneToMany
-    private List<Account> accountPerson;
-    
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @JoinColumn(name = "movement_id")
+    private List<Movement> movements;
+
+    public Service() {
+        this.movements = new ArrayList<>();
+    }
+
+    public void addMovements(Movement movements){
+        this.movements.add(movements);
+    }
+
 }

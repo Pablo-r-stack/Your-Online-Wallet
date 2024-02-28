@@ -16,15 +16,8 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -34,7 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Slf4j
-public class PersonService implements CRUDServices<Person> {
+public class PersonService implements CRUDServices<Person, Long> {
 
 
     private final PersonRepository personRepository; // Repositorio para acceder a la capa de persistencia de personas
@@ -70,8 +63,21 @@ public class PersonService implements CRUDServices<Person> {
 
     // Método para actualizar una persona por su ID (no implementado)
     @Override
-    public ResponseEntity<?> updateById(Long id) throws YOWException {
-        throw new UnsupportedOperationException("Unimplemented method 'updateById'"); // Lanzar excepción de operación no implementada
+    public ResponseEntity<?> updateById(Person person, Long id) throws YOWException {
+        Optional<Person> personOptional = personRepository.findById(id);
+        if(personOptional.isPresent()){
+            Person personUpdate = personOptional.get();
+            personUpdate.setName(person.getName());
+            personUpdate.setLastName(person.getLastName());
+            personUpdate.setNumberIdentification(person.getNumberIdentification());
+            personUpdate.setEmail(person.getEmail());
+            personUpdate.setPassword(person.getPassword());
+            personUpdate.setCountry(person.getCountry());
+            personUpdate.setRol(person.getRol());
+            personUpdate.setVirtualWallet(person.getVirtualWallet());
+            return ResponseEntity.status(HttpStatus.CREATED).body(personRepository.save(personUpdate));
+        }
+        return ResponseEntity.notFound().build();
     }
 
     // Método para buscar una persona por su ID (no implementado)

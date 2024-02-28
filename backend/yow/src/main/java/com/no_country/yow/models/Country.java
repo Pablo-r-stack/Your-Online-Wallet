@@ -9,8 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
+
 import lombok.Data;
 
 /**
@@ -19,19 +18,14 @@ import lombok.Data;
  */
 @Entity
 @Data
-public class Bank {
-    
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    
-    @Column(nullable = false)
-    private String nameBank;
-    
-    //@Column(nullable = false)
-    //private String numberCard;
-    
-    @ManyToOne
-    private Services serviceBank;
-    
+public class Country {
+
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long id;
+
+  @Column(nullable = false, unique = true)
+  //@JoinColumn(name = "")
+  private String country;
+
 }
