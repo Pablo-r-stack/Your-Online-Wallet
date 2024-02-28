@@ -82,7 +82,10 @@ public class PersonService implements CRUDServices<Person, Long> {
     // Método para buscar una persona por su ID (no implementado)
     @Override
     public ResponseEntity<?> findById(Long id) throws YOWException {
-        throw new UnsupportedOperationException("Unimplemented method 'findById'"); // Lanzar excepción de operación no implementada
+        Optional<Person> personOptional = personRepository.findById(id);
+        if(personOptional.isPresent())
+            return ResponseEntity.ok(personOptional.get());
+        return ResponseEntity.notFound().build();
     }
 
     // Método para cambiar la contraseña de una persona
