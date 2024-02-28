@@ -45,7 +45,6 @@ private JwtAuthorizationFilter jwtAuthorizationFilter;
 // Configura la cadena de filtros de seguridad
 @Bean
 SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
-    log.info("10");
 
     JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtils);
     jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
@@ -53,7 +52,7 @@ SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, Authenticatio
     return httpSecurity
             .csrf().disable() // Deshabilita la protección CSRF
             .authorizeHttpRequests() // Configura las reglas de autorización para las solicitudes HTTP
-            .antMatchers("/yow", "/yow/register").permitAll() // Permite el acceso público a estas rutas
+            .antMatchers("/yow", "/yow/register","/yow/login/change-password").permitAll() // Permite el acceso público a estas rutas
             .anyRequest().authenticated() // Todas las demás rutas requieren autenticación
             .and()
             .sessionManagement(session -> {
@@ -66,9 +65,9 @@ SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, Authenticatio
 
 
 
-// Configura un usuario en memoria pero ya los estamos tomando de la base de datos este metodo iria en la linea
+/*  Configura un usuario en memoria pero ya los estamos tomando de la base de datos este metodo iria en la linea
     //100 dentro del userDetailsServicegit
-/*    @Bean
+   @Bean
     UserDetailsService userDefault() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
 
@@ -88,14 +87,12 @@ SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, Authenticatio
 // Configura el codificador de contraseñas
 @Bean
 PasswordEncoder passwordEncoder() {
-    log.info("11");
     return new BCryptPasswordEncoder(); // Utiliza el codificador BCrypt para las contraseñas
 }
 
 // Configura el administrador de autenticación
 @Bean
 AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
-    log.info("12");
     return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class) // Obtiene el constructor de autenticación compartido
             .userDetailsService(userValid) // Configura el servicio de detalles de usuario
             .passwordEncoder(passwordEncoder()) // Configura el codificador de contraseñas

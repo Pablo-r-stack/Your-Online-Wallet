@@ -33,9 +33,9 @@ public class CallExceptionYOW {
 
     }
 
-    public void noFound(Optional<Person> person, String numdocument, String newPassword) throws YOWException {
+    public void noFound(Person person, String numdocument, String newPassword) throws YOWException {
 
-        if (person.isEmpty()) {
+        if (person == null) {
             throw new YOWException("No se ha encontrado coincidencia para el documento: " + numdocument);
         } else if (newPassword.trim().isEmpty() || newPassword.length() <= 10) {
             throw new YOWException("Ingrese una contraseña valida, con 10 caracteres minimo");

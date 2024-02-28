@@ -38,7 +38,6 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
     // Intento de autenticación del usuario
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
-        log.info("1");
 
         UserDTO user = null;
         String userDocument = "";
@@ -71,7 +70,7 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
-        log.info("2");
+
         User user = (User) authResult.getPrincipal();
 
         // Genera un token JWT utilizando JwtUtils

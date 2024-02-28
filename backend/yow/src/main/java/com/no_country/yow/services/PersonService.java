@@ -4,6 +4,7 @@
  */
 package com.no_country.yow.services;
 
+import com.no_country.yow.dto.AccountDTO;
 import com.no_country.yow.email.SendEmail;
 import com.no_country.yow.exceptions.CallExceptionYOW;
 import com.no_country.yow.exceptions.YOWException;
@@ -81,16 +82,17 @@ public class PersonService implements CRUDServices<Person> {
 
     // Método para cambiar la contraseña de una persona
     @Transactional // Anotación para indicar que este método requiere una transacción
-    public ResponseEntity<?> changePassword(String numdocument, String newPassword) throws YOWException {
+    public ResponseEntity<?> updatePassword(String numdocument, String newPassword) throws YOWException {
         try {
-            Optional<Person> optPerson = Optional.ofNullable(personRepository.findByNumberDocument(numdocument)); // Buscar una persona por su número de documento
-            valid.noFound(optPerson, numdocument, newPassword); // Validar si la persona no se encuentra o si la nueva contraseña está vacía
+            Person person = new Person();
+            ResponseEntity<?> result =  findByNumberDocument(numdocument); // Buscar una persona por su número de documento
+            personRepository.updatePassword(numdocument, encrypt.encode(newPassword)); // Actualizar la contraseña de la persona en la base de datos
 
-            personRepository.updatePassword(numdocument, newPassword); // Actualizar la contraseña de la persona en la base de datos
+            person = (Person) result.getBody();
 
             sendEmail = new SendEmail(); // Inicializar una instancia de SendEmail
 
-            sendEmail.createEmail(optPerson.get().getEmail(), newPassword); // Crear y configurar un correo electrónico para notificar el cambio de contraseña
+            sendEmail.createEmail(person.getEmail(), newPassword); // Crear y configurar un correo electrónico para notificar el cambio de contraseña
             sendEmail.sendEmail(); // Enviar el correo electrónico
 
             return ResponseEntity.ok().body("Contraseña Actualizada Exitosamente"); // Devolver respuesta exitosa
@@ -99,6 +101,26 @@ public class PersonService implements CRUDServices<Person> {
         }
     }
 
+    public ResponseEntity<?> findByNumberDocument(String numberDocument) {
+
+        try {
+            Person person = personRepository.findByNumberDocument(numberDocument);
+            valid.isUserExist(person);
+
+            return ResponseEntity.ok().body(person);
+
+        } catch (YOWException e) {
+            log.error("Error: " + e.getMessage());
+
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
+    }
+
+    public AccountDTO mainSection(String numberDocument){
+
+        return null;
+    }
 
 
 }

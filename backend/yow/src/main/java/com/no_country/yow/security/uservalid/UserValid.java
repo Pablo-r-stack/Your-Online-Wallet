@@ -28,8 +28,6 @@ public class UserValid implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String userDocument) {
-        log.info("9");
-
         try {
             Person optPerson = personRepository.findByNumberDocument(userDocument);
             valid.isUserExist(optPerson);

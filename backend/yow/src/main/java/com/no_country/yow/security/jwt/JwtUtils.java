@@ -26,7 +26,6 @@ public class JwtUtils {
 
     // Método para generar un token de acceso
     public String generateToken(String userIdentification) {
-        log.info("3");
         return Jwts.builder() // Comienza la construcción del token
                 .setSubject(userIdentification) // Establece el sujeto del token como la identificación de usuario
                 .setIssuedAt(new Date(System.currentTimeMillis())) // Establece la fecha de emisión del token como la fecha y hora actuales
@@ -37,7 +36,6 @@ public class JwtUtils {
 
     // Método para validar un token de acceso
     public boolean isTokenValid(String token) {
-        log.info("4");
         try {
             Jwts.parserBuilder() // Inicia el proceso de análisis del token
                     .setSigningKey(getSignatureKey()) // Establece la clave de firma para verificar la autenticidad del token
@@ -53,13 +51,11 @@ public class JwtUtils {
 
     // Método para obtener el usuario del token
     public String getUserToke(String token) {
-        log.info("5");
         return getClaim(token, Claims::getSubject); // Obtiene el sujeto del token utilizando el método getClaim
     }
 
     // Método para obtener un reclamo específico del token
     public <T> T getClaim(String token, Function<Claims, T> claimsFunction) {
-        log.info("6");
         Claims claim = extractAllClaims(token); // Extrae todos los reclamos del token
         return claimsFunction.apply(claim); // Aplica la función de reclamos al reclamo específico y devuelve el resultado
     }
@@ -76,7 +72,6 @@ public class JwtUtils {
 
     // Método para obtener la clave de firma del token
     public Key getSignatureKey() {
-        log.info("8");
         byte[] keyBytes = Decoders.BASE64.decode(secretKey); // Decodifica la clave secreta del formato BASE64
         return Keys.hmacShaKeyFor(keyBytes); // Devuelve la clave de firma generada utilizando la clave secreta
     }
