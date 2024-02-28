@@ -3,7 +3,7 @@ package com.no_country.yow.services;
 import com.no_country.yow.controllers.HomeController;
 import com.no_country.yow.enums.Roles;
 import com.no_country.yow.exceptions.YOWException;
-import com.no_country.yow.models.Countries;
+import com.no_country.yow.models.Country;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.repositories.PersonRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +32,7 @@ class PersonServiceTest {
     @Test
     void register() throws YOWException {
         // Creación de objetos simulados
-        Countries c = new Countries();
+        Country c = new Country();
         c.setId(1L);
         c.setCountry("Colombia");
 
@@ -59,7 +59,7 @@ class PersonServiceTest {
     @Test
     void changePassWord() throws YOWException {
         // Creamos el país y la persona simulados
-        Countries c = new Countries();
+        Country c = new Country();
         c.setId(1L);
         c.setCountry("Colombia");
 

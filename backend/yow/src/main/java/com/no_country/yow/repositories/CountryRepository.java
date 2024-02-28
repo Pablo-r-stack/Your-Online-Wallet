@@ -4,7 +4,7 @@
  */
 package com.no_country.yow.repositories;
 
-import com.no_country.yow.models.Countries;
+import com.no_country.yow.models.Country;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author jpach
  */
 @Repository
-public interface CountriesRepository extends JpaRepository<Countries, Long>{
+public interface CountryRepository extends JpaRepository<Country, Long>{
     
 }

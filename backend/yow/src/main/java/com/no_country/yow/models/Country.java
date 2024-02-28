@@ -9,9 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 /**
@@ -20,7 +18,7 @@ import lombok.Data;
  */
 @Entity
 @Data
-public class Countries {
+public class Country {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

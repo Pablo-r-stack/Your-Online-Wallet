@@ -13,6 +13,6 @@ import org.springframework.stereotype.Repository;
  * @author jpach
  */
 @Repository
-public interface ServicesRepository extends JpaRepository<Service, Long>{
+public interface ServiceRepository extends JpaRepository<Service, Long>{
     
 }

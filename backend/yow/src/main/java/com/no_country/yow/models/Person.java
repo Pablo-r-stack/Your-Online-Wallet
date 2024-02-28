@@ -37,7 +37,7 @@ public class Person {
     @Column(nullable = false)
     private String password;
     @OneToOne
-    private Countries country;
+    private Country country;
 
     @Enumerated(EnumType.STRING)
     private Roles rol;
