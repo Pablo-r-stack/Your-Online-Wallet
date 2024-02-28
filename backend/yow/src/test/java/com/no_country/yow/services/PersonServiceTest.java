@@ -40,7 +40,7 @@ class PersonServiceTest {
         p.setId(1L);
         p.setName("Juan");
         p.setLastName("Pacheco");
-        p.setNumberIdentification(1002193737L);
+        p.setNumberIdentification("1002193737L");
         p.setEmail("jpachecoim044@gmail.com");
         p.setPassword("Juan34241.");
         p.setRol(Roles.Administrator);
@@ -67,7 +67,7 @@ class PersonServiceTest {
         p.setId(1L);
         p.setName("Juan");
         p.setLastName("Pacheco");
-        p.setNumberIdentification(1002193737L);
+        p.setNumberIdentification("1002193737L");
         p.setEmail("jpachecoim044@gmail.com");
         p.setPassword("Juan34241.");
         p.setRol(Roles.Administrator);
@@ -75,7 +75,7 @@ class PersonServiceTest {
 
         // Definimos la nueva contraseña y el número de documento
         String pass = "MockitoTest";
-        Long numberDocument = 1002193737L;
+        String numberDocument = "1002193737L";
 
         // Simulamos el comportamiento del método findByNumberDocument()
         Mockito.when(personRepositoryMock.findByNumberDocument(numberDocument)).thenReturn(p);
