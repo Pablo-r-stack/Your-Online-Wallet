@@ -36,13 +36,6 @@ public class HomeController {
     }
 
 
-/*    @PostMapping("/login")
-    public ResponseEntity<?> login(){
-
-    return ResponseEntity.ok("Hoala");
-    }*/
-
-    /*Endpoint de registro de usuario*/
   @PostMapping("/register")
   public ResponseEntity<?> register(@RequestBody Person person) throws YOWException {
 
