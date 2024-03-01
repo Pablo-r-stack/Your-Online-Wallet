@@ -4,21 +4,13 @@
  */
 package com.no_country.yow.controllers;
 
-import com.no_country.yow.dto.AccountDTO;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import com.no_country.yow.services.CountryService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.no_country.yow.exceptions.CallExceptionYOW;
 import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.services.PersonService;
-
-import lombok.extern.slf4j.Slf4j;
 
 /**
  *
@@ -31,13 +23,23 @@ public class HomeController {
 
 
   private PersonService beanPerson;
-  public HomeController(PersonService personService) {
+  private CountryService beanCountry;
+  public HomeController(PersonService personService, CountryService countryService) {
     this.beanPerson = personService;
+    this.beanCountry = countryService;
     }
 
 
-  @PostMapping("/register")
-  public ResponseEntity<?> register(@RequestBody Person person) throws YOWException {
+    @GetMapping("/register")
+    public ResponseEntity<?> register(){
+
+    return beanCountry.findAll();
+
+    }
+
+
+  @PostMapping("/save-register")
+  public ResponseEntity<?> saveRegister(@RequestBody Person person) throws YOWException {
 
     return beanPerson.save(person);
 

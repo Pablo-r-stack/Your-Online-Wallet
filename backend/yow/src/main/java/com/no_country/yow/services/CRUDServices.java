@@ -9,7 +9,7 @@ import com.no_country.yow.exceptions.YOWException;
 public interface CRUDServices<T, G> {
   ResponseEntity<?> save(T data) throws YOWException;
 
-  List<T> findAll();
+  ResponseEntity<List<T>> findAll();
 
   ResponseEntity<?> updateById(T t, G id) throws YOWException;
 

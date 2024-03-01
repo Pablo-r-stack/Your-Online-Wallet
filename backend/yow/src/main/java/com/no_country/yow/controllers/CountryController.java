@@ -20,7 +20,7 @@ public class CountryController {
     private CountryService service;
 
     @GetMapping
-    public List<Country> list(){
+    public ResponseEntity<?> list(){
         return service.findAll();
     }
 

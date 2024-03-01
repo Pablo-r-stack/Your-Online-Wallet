@@ -1,11 +1,8 @@
 package com.no_country.yow.controllers;
 
 
-import com.no_country.yow.dto.AccountDTO;
+import com.no_country.yow.dto.VirtualWalletDTO;
 import com.no_country.yow.services.PersonService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.AutoConfigureOrder;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,7 +22,7 @@ public class InitiatedSectionController {
 
 
     @GetMapping("main")
-    public AccountDTO main(){
+    public VirtualWalletDTO main(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         beanPerson.findByNumberDocument(authentication.getName());

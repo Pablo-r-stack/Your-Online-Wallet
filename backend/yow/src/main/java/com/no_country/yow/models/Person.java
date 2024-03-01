@@ -38,9 +38,11 @@ public class Person {
     @Column(nullable = false)
     private String password;
     @OneToOne
+    @JoinColumn(name = "country_id")
     private Country country;
 
     @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "rol_id")
     private Roles rol;
     
     // Falta el documento de validación

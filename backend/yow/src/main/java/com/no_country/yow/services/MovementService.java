@@ -23,8 +23,10 @@ public class MovementService implements CRUDServices<Movement, Long> {
     }
 
     @Override
-    public List<Movement> findAll() {
-        return repository.findAll();
+    public ResponseEntity<List<Movement>> findAll() {
+
+        List<Movement> listMovements = repository.findAll();
+        return ResponseEntity.ok().body(listMovements);
     }
 
     @Override

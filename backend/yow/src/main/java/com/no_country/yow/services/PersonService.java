@@ -4,8 +4,9 @@
  */
 package com.no_country.yow.services;
 
-import com.no_country.yow.dto.AccountDTO;
+import com.no_country.yow.dto.VirtualWalletDTO;
 import com.no_country.yow.email.SendEmail;
+import com.no_country.yow.enums.Roles;
 import com.no_country.yow.exceptions.CallExceptionYOW;
 import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
@@ -48,6 +49,7 @@ public class PersonService implements CRUDServices<Person, Long> {
         try {
             valid.fieldEmpty(person); // Validar campos vacíos de la persona
             person.setPassword(encrypt.encode(person.getPassword()));
+            person.setRol(Roles.Client);
             personRepository.save(person); // Guardar la persona en la base de datos
             return ResponseEntity.status(HttpStatus.CREATED).body(person); // Devolver respuesta exitosa con la persona guardada
         } catch (YOWException e) {
@@ -57,8 +59,10 @@ public class PersonService implements CRUDServices<Person, Long> {
 
     // Método para obtener todas las personas
     @Override
-    public List<Person> findAll() {
-        return personRepository.findAll(); // Devolver todas las personas almacenadas en la base de datos
+    public ResponseEntity<List<Person>> findAll() {
+        List<Person> listPerson = personRepository.findAll(); // Devolver todas las personas almacenadas en la base de datos
+
+    return ResponseEntity.ok().body(listPerson);
     }
 
     // Método para actualizar una persona por su ID (no implementado)
@@ -126,7 +130,7 @@ public class PersonService implements CRUDServices<Person, Long> {
 
     }
 
-    public AccountDTO mainSection(String numberDocument){
+    public VirtualWalletDTO mainSection(String numberDocument){
 
         return null;
     }

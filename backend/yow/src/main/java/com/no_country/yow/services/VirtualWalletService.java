@@ -23,8 +23,10 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
     }
 
     @Override
-    public List<VirtualWallet> findAll() {
-        return repository.findAll();
+    public ResponseEntity<List<VirtualWallet>> findAll() {
+       List<VirtualWallet> listVirtualWallet = repository.findAll();
+
+       return ResponseEntity.ok().body(listVirtualWallet);
     }
 
     @Override

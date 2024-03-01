@@ -22,8 +22,11 @@ public class CountryService implements CRUDServices<Country, Long> {
     }
 
     @Override
-    public List<Country> findAll() {
-        return repository.findAll();
+    public ResponseEntity<List<Country>> findAll() {
+
+        List<Country> listCountries = repository.findAll();
+
+        return ResponseEntity.ok().body(listCountries);
     }
 
     @Override

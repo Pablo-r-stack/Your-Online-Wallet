@@ -50,9 +50,9 @@ SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, Authenticatio
     jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
     jwtAuthenticationFilter.setFilterProcessesUrl("/yow/login");
     return httpSecurity
-            .csrf().disable() // Deshabilita la protección CSRF
+           // .csrf().disable() // Deshabilita la protección CSRF
             .authorizeHttpRequests() // Configura las reglas de autorización para las solicitudes HTTP
-            .antMatchers("/yow", "/yow/register","/yow/login/change-password").permitAll() // Permite el acceso público a estas rutas
+            .antMatchers("/yow", "/yow/register","/yow/login/change-password","/yow/save-register").permitAll() // Permite el acceso público a estas rutas
             .anyRequest().authenticated() // Todas las demás rutas requieren autenticación
             .and()
             .sessionManagement(session -> {
@@ -96,7 +96,8 @@ AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Ex
     return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class) // Obtiene el constructor de autenticación compartido
             .userDetailsService(userValid) // Configura el servicio de detalles de usuario
             .passwordEncoder(passwordEncoder()) // Configura el codificador de contraseñas
-            .and().build(); // Construye el administrador de autenticación
+            .and()
+            .build(); // Construye el administrador de autenticación
 }
 
 

@@ -22,8 +22,10 @@ public class ServiceService implements CRUDServices<Service, Long> {
     }
 
     @Override
-    public List<Service> findAll() {
-        return repository.findAll();
+    public ResponseEntity<List<Service>> findAll() {
+        List<Service> listService = repository.findAll();
+
+        return ResponseEntity.ok().body(listService);
     }
 
     @Override

@@ -7,20 +7,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Data
-public class AccountDTO implements Serializable {
+public class VirtualWalletDTO implements Serializable {
 
+    private Long id;
     private String name ;
     private String lastName;
     private String balance;
-    private List<String> banks;
-    private List<String> numberCard;
     private List<String> amountMovement;
     private List<String> date;
 
 
-    public AccountDTO(){
-        this.banks = new ArrayList<>();
-        this.numberCard = new ArrayList<>();
+    public VirtualWalletDTO(){
         this.amountMovement = new ArrayList<>();
         this.date = new ArrayList<>();
     }
