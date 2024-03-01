@@ -7,6 +7,7 @@ import Faq from './pages/Faq'
 import Login from './pages/Login'
 import Register from './pages/Register'
 
+
 function App() {
 
   return (
