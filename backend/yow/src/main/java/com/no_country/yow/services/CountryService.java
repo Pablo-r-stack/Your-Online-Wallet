@@ -38,7 +38,7 @@ public class CountryService implements CRUDServices<Country, Long> {
     public ResponseEntity<?> findById(Long id) throws YOWException {
         Optional<Country> countryOptional = repository.findById(id);
         if(countryOptional.isPresent())
-            return ResponseEntity.ok(countryOptional.get());
+            return ResponseEntity.ok().body(countryOptional.get());
         return ResponseEntity.notFound().build();
     }
 }
