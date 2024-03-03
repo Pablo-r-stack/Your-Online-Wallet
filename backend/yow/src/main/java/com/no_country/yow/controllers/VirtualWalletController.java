@@ -26,7 +26,7 @@ public class VirtualWalletController {
     public ResponseEntity<?> create(@RequestBody VirtualWallet virtualWallet, @PathVariable Long id) throws YOWException {
         Person person = (Person) personService.findById(id).getBody();
         if(person != null){
-            person.addVirtualWallet(virtualWallet); // Se guarda la billetera dentro del usuario
+          //  person.addVirtualWallet(virtualWallet); // Se guarda la billetera dentro del usuario
             return ResponseEntity.status(HttpStatus.CREATED).body(personService.save(person));
         }
         return ResponseEntity.notFound().build(); // Si no encuentra el id del usuario retorna un not found

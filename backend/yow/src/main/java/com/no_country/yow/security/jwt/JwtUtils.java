@@ -62,7 +62,6 @@ public class JwtUtils {
 
     // Método para extraer todos los reclamos del token
     public Claims extractAllClaims(String token) {
-        log.info("7");
         return Jwts.parserBuilder() // Inicia el proceso de análisis del token
                 .setSigningKey(getSignatureKey()) // Establece la clave de firma para verificar la autenticidad del token
                 .build() // Construye el parser

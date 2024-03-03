@@ -32,40 +32,39 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Slf4j
 @Configuration // Indica que esta clase es una configuración de Spring
 @EnableWebSecurity // Habilita la seguridad web de Spring Security
-public class ConfigSecurity{
-@Autowired
-private UserValid userValid; // Inyecta el servicio de Personas
+public class ConfigSecurity {
 
-@Autowired
-private JwtUtils jwtUtils;
+    @Autowired
+    private UserValid userValid; // Inyecta el servicio de Personas
 
-@Autowired
-private JwtAuthorizationFilter jwtAuthorizationFilter;
+    @Autowired
+    private JwtUtils jwtUtils;
+
+    @Autowired
+    private JwtAuthorizationFilter jwtAuthorizationFilter;
 
 // Configura la cadena de filtros de seguridad
-@Bean
-SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, AuthenticationManager authenticationManager) throws Exception {
+        JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtils);
+        jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
+        jwtAuthenticationFilter.setFilterProcessesUrl("/yow/login");
+        log.info("entro en la seguridad");
+        return httpSecurity
+                .csrf().disable() // Deshabilita la protección CSRF La vamos a deshabilitar por que estamos trabajando con jwt
+                .authorizeHttpRequests() // Configura las reglas de autorización para las solicitudes HTTP
+                .antMatchers("/yow", "/yow/register", "/yow/login/change-password","/yow/save-register").permitAll() // Permite el acceso público a estas rutas
+                .anyRequest().authenticated() // Todas las demás rutas requieren autenticación
+                .and()
+                .sessionManagement(session -> {
+                    session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED); // Configura la política de creación de sesiones
+                })
+                .addFilter(jwtAuthenticationFilter)
+                .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build(); // Construye la cadena de filtros de seguridad
+    }
 
-    JwtAuthenticationFilter jwtAuthenticationFilter = new JwtAuthenticationFilter(jwtUtils);
-    jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
-    jwtAuthenticationFilter.setFilterProcessesUrl("/yow/login");
-    return httpSecurity
-           // .csrf().disable() // Deshabilita la protección CSRF
-            .authorizeHttpRequests() // Configura las reglas de autorización para las solicitudes HTTP
-            .antMatchers("/yow", "/yow/register","/yow/login/change-password","/yow/save-register").permitAll() // Permite el acceso público a estas rutas
-            .anyRequest().authenticated() // Todas las demás rutas requieren autenticación
-            .and()
-            .sessionManagement(session -> {
-                session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED); // Configura la política de creación de sesiones
-            })
-            .addFilter(jwtAuthenticationFilter)
-            .addFilterBefore(jwtAuthorizationFilter,UsernamePasswordAuthenticationFilter.class)
-            .build(); // Construye la cadena de filtros de seguridad
-}
-
-
-
-/*  Configura un usuario en memoria pero ya los estamos tomando de la base de datos este metodo iria en la linea
+    /*  Configura un usuario en memoria pero ya los estamos tomando de la base de datos este metodo iria en la linea
     //100 dentro del userDetailsServicegit
    @Bean
     UserDetailsService userDefault() {
@@ -79,26 +78,20 @@ SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, Authenticatio
 
         return manager; // Retorna el administrador de detalles de usuario
     }*/
-
-
-
-
-
 // Configura el codificador de contraseñas
-@Bean
-PasswordEncoder passwordEncoder() {
-    return new BCryptPasswordEncoder(); // Utiliza el codificador BCrypt para las contraseñas
-}
+    @Bean
+    PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(); // Utiliza el codificador BCrypt para las contraseñas
+    }
 
 // Configura el administrador de autenticación
-@Bean
-AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
-    return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class) // Obtiene el constructor de autenticación compartido
-            .userDetailsService(userValid) // Configura el servicio de detalles de usuario
-            .passwordEncoder(passwordEncoder()) // Configura el codificador de contraseñas
-            .and()
-            .build(); // Construye el administrador de autenticación
-}
-
+    @Bean
+    AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Exception {
+        return httpSecurity.getSharedObject(AuthenticationManagerBuilder.class) // Obtiene el constructor de autenticación compartido
+                .userDetailsService(userValid) // Configura el servicio de detalles de usuario
+                .passwordEncoder(passwordEncoder()) // Configura el codificador de contraseñas
+                .and()
+                .build(); // Construye el administrador de autenticación
+    }
 
 }

@@ -18,8 +18,9 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
     private VirtualWalletRepository repository;
 
     @Override
-    public ResponseEntity<?> save(VirtualWallet data) throws YOWException {
-        return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(data));
+    public ResponseEntity<?> save(VirtualWallet wallet) throws YOWException {
+        repository.save(wallet);
+        return ResponseEntity.ok("Billetera Creada");
     }
 
     @Override
@@ -35,7 +36,7 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
         if(virtualWalletOptional.isPresent()){
             VirtualWallet virtualWalletDb = virtualWalletOptional.get();
             virtualWalletDb.setBalance(virtualWallet.getBalance());
-            virtualWalletDb.setServices(virtualWallet.getServices());
+//            virtualWalletDb.setServices(virtualWallet.getServices());
             return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(virtualWalletDb));
         }
         return ResponseEntity.notFound().build();

@@ -44,19 +44,5 @@ public class Person {
     @Enumerated(EnumType.STRING)
     @JoinColumn(name = "rol_id")
     private Roles rol;
-    
-    // Falta el documento de validación
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "virtual_id")
-    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-    private VirtualWallet virtualWallet;
-
-    public Person() {
-        this.virtualWallet = null;
-    }
-
-    public void addVirtualWallet(VirtualWallet virtualWallet){
-        this.virtualWallet = virtualWallet;
-    }
 }

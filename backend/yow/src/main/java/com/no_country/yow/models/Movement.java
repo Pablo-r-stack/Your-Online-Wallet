@@ -4,10 +4,12 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Data
 public class Movement {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -16,6 +18,13 @@ public class Movement {
     private Date date;
 
     private Double mount;
-    private String reference;
     private Boolean successful; // Si el movimiento fue exitoso
+
+    @ManyToOne
+    @JoinColumn(name = "service_id")
+    private Services services;
+
+    @ManyToOne
+    @JoinColumn(name = "wallet_id")
+    private VirtualWallet wallet;
 }
