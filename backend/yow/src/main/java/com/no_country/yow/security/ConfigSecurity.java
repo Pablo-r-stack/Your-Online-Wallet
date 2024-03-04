@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -64,8 +65,6 @@ public class ConfigSecurity {
                 .build(); // Construye la cadena de filtros de seguridad
     }
 
-    /*  Configura un usuario en memoria pero ya los estamos tomando de la base de datos este metodo iria en la linea
-    //100 dentro del userDetailsServicegit
    @Bean
     UserDetailsService userDefault() {
         InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
@@ -77,7 +76,7 @@ public class ConfigSecurity {
                 .build());
 
         return manager; // Retorna el administrador de detalles de usuario
-    }*/
+    }
 // Configura el codificador de contraseñas
     @Bean
     PasswordEncoder passwordEncoder() {

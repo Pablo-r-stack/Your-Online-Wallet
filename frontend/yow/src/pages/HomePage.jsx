@@ -9,7 +9,7 @@ export default function HomePage() {
     };
 
     return (
-        <body className='container max-w-full h-screen font-sans'>
+        <div className='container max-w-full h-screen font-sans'>
           <section className='bg-zinc-900 h-2/4 p-8 lg:p-20 flex flex-col lg:flex-row'>
             <div className='text-gray-100 w-full lg:w-2/4 mt-8 lg:mt-0 ml-0 lg:ml-8'>
               <h1 className='text-3xl lg:text-7xl font-bold'>Bienvenido a tu nueva Economía</h1>
@@ -27,6 +27,6 @@ export default function HomePage() {
               <Button text="Acerca de" onClick={() => handleRedirect('/faq')} />
             </div>
           </section>
-        </body>
+        </div>
       );
     }

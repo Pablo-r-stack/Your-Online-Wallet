@@ -12,6 +12,8 @@ import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.services.PersonService;
 
+import javax.annotation.security.PermitAll;
+
 /**
  *
  * @author jpach
@@ -40,7 +42,7 @@ public class HomeController {
 
   @PostMapping("/save-register")
   public ResponseEntity<?> saveRegister(@RequestBody Person person) throws YOWException {
-
+    System.out.println(person.toString());
     return beanPerson.save(person);
 
   }
