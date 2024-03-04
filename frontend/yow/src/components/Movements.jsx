@@ -10,7 +10,7 @@ export default function Movements({transaction, ammount}) {
                 <span className="relative size-5 scale-125 shrink-0 ">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="absolute inset-0 size-5 opacity-100 group-open:opacity-0"
+                        className="absolute inset-0 size-5 opacity-100 group-open:opacity-0"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
@@ -25,7 +25,7 @@ export default function Movements({transaction, ammount}) {
 
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        class="absolute inset-0 size-5 opacity-0 group-open:opacity-100"
+                        className="absolute inset-0 size-5 opacity-0 group-open:opacity-100"
                         fill="none"
                         viewBox="0 0 24 24"
                         stroke="currentColor"
