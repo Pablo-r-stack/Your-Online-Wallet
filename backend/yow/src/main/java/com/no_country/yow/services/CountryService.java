@@ -16,10 +16,10 @@ public class CountryService implements CRUDServices<Country, Long> {
     @Autowired
     private CountryRepository repository;
 
-    @Override
-    public ResponseEntity<?> save(Country data) throws YOWException {
-        return ResponseEntity.internalServerError().build();
-    }
+//    @Override
+//    public ResponseEntity<?> save(Country data) throws YOWException {
+//        return ResponseEntity.internalServerError().build();
+//    }
 
     @Override
     public ResponseEntity<List<Country>> findAll() {
@@ -29,16 +29,31 @@ public class CountryService implements CRUDServices<Country, Long> {
         return ResponseEntity.ok().body(listCountries);
     }
 
+//    @Override
+//    public ResponseEntity<?> updateById(Country country, Long id) throws YOWException {
+//        return ResponseEntity.internalServerError().build();
+//    }
+//
+//    @Override
+//    public ResponseEntity<?> findById(Long id) throws YOWException {
+//        Optional<Country> countryOptional = repository.findById(id);
+//        if(countryOptional.isPresent())
+//            return ResponseEntity.ok().body(countryOptional.get());
+//        return ResponseEntity.notFound().build();
+//    }
+
     @Override
-    public ResponseEntity<?> updateById(Country country, Long id) throws YOWException {
-        return ResponseEntity.internalServerError().build();
+    public ResponseEntity<?> save(Country data) throws YOWException {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResponseEntity<?> updateById(Country t, Long id) throws YOWException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public ResponseEntity<?> findById(Long id) throws YOWException {
-        Optional<Country> countryOptional = repository.findById(id);
-        if(countryOptional.isPresent())
-            return ResponseEntity.ok().body(countryOptional.get());
-        return ResponseEntity.notFound().build();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

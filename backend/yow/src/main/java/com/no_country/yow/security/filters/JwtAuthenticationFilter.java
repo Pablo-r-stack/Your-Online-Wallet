@@ -6,9 +6,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.no_country.yow.dto.UserDTO;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.security.jwt.JwtUtils;
-import lombok.extern.java.Log;
+import com.no_country.yow.services.PersonService;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,21 +15,24 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
+
 
 
 @Slf4j
 public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilter {
     private JwtUtils jwtUtils;
+    
+    @Autowired
+    private PersonService beanPerson;
 
-    // Constructor para inicializar JwtUtils
+
     public JwtAuthenticationFilter(JwtUtils jwtUtils) {
         this.jwtUtils = jwtUtils;
     }
@@ -72,13 +74,14 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
                                             Authentication authResult) throws IOException {
 
         User user = (User) authResult.getPrincipal();
-
+        log.info("Aquie estamos che" +  user.getUsername());
         // Genera un token JWT utilizando JwtUtils
         String token = jwtUtils.generateToken(user.getUsername());
-
         // Agrega el token JWT al encabezado de la respuesta
         response.addHeader("Authorization", token);
 
+        Person p = (Person) beanPerson.findByNumberDocument(user.getUsername()).getBody();
+        
         // Crea un mapa para la respuesta HTTP
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("token", token);

@@ -43,16 +43,26 @@ public class MovementService implements CRUDServices<Movement, Long> {
 //        return ResponseEntity.notFound().build();
 //    }
 
-    @Override
-    public ResponseEntity<?> findById(Long id) throws YOWException {
-        Optional<Movement> movementOptional = repository.findById(id);
-        if(movementOptional.isPresent())
-            return ResponseEntity.ok(movementOptional.get());
-        return ResponseEntity.notFound().build();
-    }
+//    @Override
+//    public ResponseEntity<?> findById(Long id) throws YOWException {
+//        Optional<Movement> movementOptional = repository.findById(id);
+//        if(movementOptional.isPresent())
+//            return ResponseEntity.ok(movementOptional.get());
+//        return ResponseEntity.notFound().build();
+//    }
+
+//    @Override
+//    public ResponseEntity<?> updateById(Movement t, Long id) throws YOWException {
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+//    }
 
     @Override
     public ResponseEntity<?> updateById(Movement t, Long id) throws YOWException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public ResponseEntity<?> findById(Long id) throws YOWException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

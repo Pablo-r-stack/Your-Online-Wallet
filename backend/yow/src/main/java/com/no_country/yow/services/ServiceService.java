@@ -4,11 +4,8 @@ import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Services;
 import com.no_country.yow.repositories.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
 import java.util.List;
-import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class ServiceService implements CRUDServices<Services, Long> {
@@ -65,4 +62,5 @@ public class ServiceService implements CRUDServices<Services, Long> {
     @Override
     public ResponseEntity<?> findById(Long id) throws YOWException {
         throw new UnsupportedOperationException("Not supported yet.");
+}
 }

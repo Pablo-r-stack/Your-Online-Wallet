@@ -23,31 +23,46 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
         return ResponseEntity.ok("Billetera Creada");
     }
 
+//    @Override
+//    public ResponseEntity<List<VirtualWallet>> findAll() {
+//       List<VirtualWallet> listVirtualWallet = repository.findAll();
+//
+//       return ResponseEntity.ok().body(listVirtualWallet);
+//    }
+
+//    @Override
+//    public ResponseEntity<?> updateById(VirtualWallet virtualWallet, String id) throws YOWException {
+//        Optional<VirtualWallet> virtualWalletOptional = repository.findById(id);
+//        if(virtualWalletOptional.isPresent()){
+//            VirtualWallet virtualWalletDb = virtualWalletOptional.get();
+//            virtualWalletDb.setBalance(virtualWallet.getBalance());
+//            virtualWalletDb.setServices(virtualWallet.getServices());
+//            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(virtualWalletDb));
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
+
+
+//    @Override
+//    public ResponseEntity<?> findById(String id) throws YOWException {
+//        Optional<VirtualWallet> virtualWalletOptional = repository.findById(id);
+//        if(virtualWalletOptional.isPresent())
+//            return ResponseEntity.ok(virtualWalletOptional.get());
+//        return ResponseEntity.notFound().build();
+//    }
+
     @Override
     public ResponseEntity<List<VirtualWallet>> findAll() {
-       List<VirtualWallet> listVirtualWallet = repository.findAll();
-
-       return ResponseEntity.ok().body(listVirtualWallet);
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public ResponseEntity<?> updateById(VirtualWallet virtualWallet, String id) throws YOWException {
-        Optional<VirtualWallet> virtualWalletOptional = repository.findById(id);
-        if(virtualWalletOptional.isPresent()){
-            VirtualWallet virtualWalletDb = virtualWalletOptional.get();
-            virtualWalletDb.setBalance(virtualWallet.getBalance());
-//            virtualWalletDb.setServices(virtualWallet.getServices());
-            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(virtualWalletDb));
-        }
-        return ResponseEntity.notFound().build();
+    public ResponseEntity<?> updateById(VirtualWallet t, String id) throws YOWException {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
-
 
     @Override
     public ResponseEntity<?> findById(String id) throws YOWException {
-        Optional<VirtualWallet> virtualWalletOptional = repository.findById(id);
-        if(virtualWalletOptional.isPresent())
-            return ResponseEntity.ok(virtualWalletOptional.get());
-        return ResponseEntity.notFound().build();
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -24,8 +24,8 @@ public class CountryController {
         return service.findAll();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<?> listOne(@PathVariable Long id) throws YOWException {
-        return service.findById(id);
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<?> listOne(@PathVariable Long id) throws YOWException {
+//        return service.findById(id);
+//    }
 }
