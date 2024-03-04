@@ -29,19 +29,19 @@ public class MovementService implements CRUDServices<Movement, Long> {
         return ResponseEntity.ok().body(listMovements);
     }
 
-    @Override
-    public ResponseEntity<?> updateById(Movement movement, Long id) throws YOWException {
-        Optional<Movement> movementOptional = repository.findById(id);
-        if(movementOptional.isPresent()){
-            Movement movementUpdate = movementOptional.get();
-            movementUpdate.setDate(movement.getDate());
-            movementUpdate.setMount(movement.getMount());
-            movementUpdate.setReference(movement.getReference());
-            movementUpdate.setSuccessful(movement.getSuccessful());
-            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(movementUpdate));
-        }
-        return ResponseEntity.notFound().build();
-    }
+//    @Override
+//    public ResponseEntity<?> updateById(Movement movement, Long id) throws YOWException {
+//        Optional<Movement> movementOptional = repository.findById(id);
+//        if(movementOptional.isPresent()){
+//            Movement movementUpdate = movementOptional.get();
+//            movementUpdate.setDate(movement.getDate());
+//            movementUpdate.setMount(movement.getMount());
+//            movementUpdate.setReference(movement.getReference());
+//            movementUpdate.setSuccessful(movement.getSuccessful());
+//            return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(movementUpdate));
+//        }
+//        return ResponseEntity.notFound().build();
+//    }
 
     @Override
     public ResponseEntity<?> findById(Long id) throws YOWException {
@@ -49,5 +49,10 @@ public class MovementService implements CRUDServices<Movement, Long> {
         if(movementOptional.isPresent())
             return ResponseEntity.ok(movementOptional.get());
         return ResponseEntity.notFound().build();
+    }
+
+    @Override
+    public ResponseEntity<?> updateById(Movement t, Long id) throws YOWException {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

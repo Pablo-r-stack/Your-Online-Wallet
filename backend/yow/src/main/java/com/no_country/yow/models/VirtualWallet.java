@@ -1,31 +1,39 @@
 package com.no_country.yow.models;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @Entity
 @Data
 public class VirtualWallet {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String numberAccount;
+
+    @NonNull
     private Double balance;
 
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "service_id")
-    private List<Service> services;
+    @OneToOne
+    @NonNull
+    @JoinColumn(name = "id_client")
+    private Person person;
+        
+    @Transient
+    private static  final AtomicLong count = new AtomicLong();
 
-    public VirtualWallet() {
-        this.services = new ArrayList<>();
+    @PrePersist
+    public  void createNumbercount(){
+        this.numberAccount  = String.format(("%010d"), count.incrementAndGet());
     }
 
-    public void addService(Service service){
-        this.services.add(service);
-    }
 }
