@@ -42,7 +42,17 @@ public class UserValid implements UserDetailsService {
                     Collections.singletonList(new SimpleGrantedAuthority("ROLE_".concat(String.valueOf(optPerson.getRol())))));
 
         } catch (YOWException e) {
-            throw new RuntimeException(e.getMessage().concat(" ").concat(userDocument));
+           // throw new RuntimeException(e.getMessage().concat(" ").concat(userDocument));
+           log.info("Error: " + e.getMessage() + " " + userDocument);
+           
+                    return new User(
+                    "",
+                    "",
+                    true,
+                    true,
+                    true,
+                    true,
+                    Collections.singletonList(new SimpleGrantedAuthority("ROLE_".concat(String.valueOf("")))));
 
         }
     }

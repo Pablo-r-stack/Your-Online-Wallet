@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.no_country.yow.dto.UserDTO;
+import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.security.jwt.JwtUtils;
-import com.no_country.yow.services.PersonService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -21,16 +21,14 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import org.springframework.beans.factory.annotation.Autowired;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 @Slf4j
 public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilter {
     private JwtUtils jwtUtils;
-    
-    @Autowired
-    private PersonService beanPerson;
+
 
 
     public JwtAuthenticationFilter(JwtUtils jwtUtils) {
@@ -50,7 +48,7 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
             user = new ObjectMapper().readValue(request.getInputStream(), UserDTO.class);
             userDocument = user.getUsername();
             password = user.getPassword();
-
+            
         } catch (StreamReadException e) {
             throw new RuntimeException(e);
         } catch (DatabindException e) {
@@ -74,19 +72,19 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
                                             Authentication authResult) throws IOException {
 
         User user = (User) authResult.getPrincipal();
-        log.info("Aquie estamos che" +  user.getUsername());
         // Genera un token JWT utilizando JwtUtils
         String token = jwtUtils.generateToken(user.getUsername());
         // Agrega el token JWT al encabezado de la respuesta
         response.addHeader("Authorization", token);
-
-        Person p = (Person) beanPerson.findByNumberDocument(user.getUsername()).getBody();
+        
+        String number = (String) user.getUsername();
+         UserDTO message = jwtUtils.message(number);
         
         // Crea un mapa para la respuesta HTTP
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("token", token);
-        httpResponse.put("message", "Authentication successful");
-        httpResponse.put("User", user.getUsername());
+//        httpResponse.put("message", "Authentication successful");
+        httpResponse.put("User", message);
 
         // Escribe la respuesta en formato JSON en el cuerpo de la respuesta
         response.getWriter().write(new ObjectMapper().writeValueAsString(httpResponse));

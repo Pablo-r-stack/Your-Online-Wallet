@@ -1,5 +1,9 @@
 package com.no_country.yow.security.jwt;
 
+import com.no_country.yow.dto.UserDTO;
+import com.no_country.yow.exceptions.YOWException;
+import com.no_country.yow.models.Person;
+import com.no_country.yow.repositories.PersonRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -12,10 +16,12 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 import java.util.function.Function;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Slf4j
 @Component
 public class JwtUtils {
+
     @Value("${jwt.secret.key}")
 // Anotación para inyectar el valor de la propiedad 'jwt.secret.key' en la variable 'secretKey'
     private String secretKey;
@@ -23,6 +29,9 @@ public class JwtUtils {
     @Value("${jwt.time.expiration}")
 // Anotación para inyectar el valor de la propiedad 'jwt.time.expiration' en la variable 'timeExpiration'
     private String timeExpiration;
+
+    @Autowired
+    private PersonRepository beanPerson;
 
     // Método para generar un token de acceso
     public String generateToken(String userIdentification) {
@@ -74,4 +83,27 @@ public class JwtUtils {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey); // Decodifica la clave secreta del formato BASE64
         return Keys.hmacShaKeyFor(keyBytes); // Devuelve la clave de firma generada utilizando la clave secreta
     }
+
+    public UserDTO message(String number) {
+        try {
+            Person result = beanPerson.data(number);
+            if (result == null) {
+                throw new Exception("Usuario no existe: " + number);
+            }
+
+            UserDTO person = new UserDTO();
+            person.setId(result.getId());
+            person.setName(result.getName());
+            person.setLastname(result.getLastName());
+            person.setUsername(result.getNumberIdentification());
+            person.setRol(result.getRol().name());
+            return person;
+        } catch (Exception e) {
+            log.info("Aqui");
+            log.info("Error: " + e.getMessage());
+            return null;
+
+        }
+    }
+
 }

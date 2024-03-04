@@ -43,6 +43,7 @@ public class ConfigSecurity {
 
     @Autowired
     private JwtAuthorizationFilter jwtAuthorizationFilter;
+    
 
 // Configura la cadena de filtros de seguridad
     @Bean

@@ -4,6 +4,7 @@
  */
 package com.no_country.yow.repositories;
 
+import com.no_country.yow.dto.UserDTO;
 import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -22,6 +23,9 @@ public interface PersonRepository extends JpaRepository<Person, Long>{
 
     @Query("SELECT p FROM Person p WHERE p.numberIdentification = ?1")
     public Person findByNumberDocument(String numdocument) throws YOWException;
+
+    @Query("SELECT p FROM Person p WHERE p.numberIdentification = ?1")
+    public Person data(String number);
 
     @Modifying
     @Query("UPDATE Person p SET p.password = ?2  WHERE p.numberIdentification = ?1")

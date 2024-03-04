@@ -47,7 +47,7 @@ public class CallExceptionYOW {
     public void isUserExist(Person person) throws YOWException {
 
          if (person == null) {
-            throw new RuntimeException("No se ha encontrado coincidencia para el usuario");
+            throw new YOWException("No se ha encontrado coincidencia para el usuario");
         }
     }
 
