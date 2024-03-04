@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -50,9 +51,10 @@ SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, Authenticatio
     jwtAuthenticationFilter.setAuthenticationManager(authenticationManager);
     jwtAuthenticationFilter.setFilterProcessesUrl("/yow/login");
     return httpSecurity
-           // .csrf().disable() // Deshabilita la protección CSRF
+            .csrf().disable() // Deshabilita la protección CSRF
+            .cors().and() // Habilita la configuración CORS
             .authorizeHttpRequests() // Configura las reglas de autorización para las solicitudes HTTP
-            .antMatchers("/yow", "/yow/register","/yow/login/change-password","/yow/save-register").permitAll() // Permite el acceso público a estas rutas
+            .antMatchers("/yow", "/yow/register","/yow/login/change-password","/yow/save-register").permitAll()
             .anyRequest().authenticated() // Todas las demás rutas requieren autenticación
             .and()
             .sessionManagement(session -> {
@@ -62,6 +64,7 @@ SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity, Authenticatio
             .addFilterBefore(jwtAuthorizationFilter,UsernamePasswordAuthenticationFilter.class)
             .build(); // Construye la cadena de filtros de seguridad
 }
+
 
 
 
@@ -99,6 +102,5 @@ AuthenticationManager authenticationManager(HttpSecurity httpSecurity) throws Ex
             .and()
             .build(); // Construye el administrador de autenticación
 }
-
-
 }
+

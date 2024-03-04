@@ -2,12 +2,12 @@ import React from 'react'
 
 export default function Movements({transaction, ammount}) {
     return (
-        <details class="group rounded-lg [&_summary::-webkit-details-marker]:hidden border border-gray-100 shadow-md shadow-zinc-500
+        <details className="group rounded-lg [&_summary::-webkit-details-marker]:hidden border border-gray-100 shadow-md shadow-zinc-500
          m-4 p-0 hover:shadow-lg hover:shadow-zinc-500 active:shadow-sm transition-all" open>
-            <summary class="rounded-lg flex cursor-pointer items-center justify-between gap-1.5 bg-gray-100  text-zinc-900 px-4 py-2">
-                <h2 class="font-semibold text-2xl">{transaction}</h2>
+            <summary className="rounded-lg flex cursor-pointer items-center justify-between gap-1.5 bg-gray-100  text-zinc-900 px-4 py-2">
+                <h2 className="font-semibold text-2xl">{transaction}</h2>
 
-                <span class="relative size-5 scale-125 shrink-0 ">
+                <span className="relative size-5 scale-125 shrink-0 ">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         class="absolute inset-0 size-5 opacity-100 group-open:opacity-0"
@@ -40,7 +40,7 @@ export default function Movements({transaction, ammount}) {
                 </span>
             </summary>
 
-            <p class="px-4 py-1 text-md text-zinc-900">
+            <p className="px-4 py-1 text-md text-zinc-900">
                 {ammount}
             </p>
         </details>
