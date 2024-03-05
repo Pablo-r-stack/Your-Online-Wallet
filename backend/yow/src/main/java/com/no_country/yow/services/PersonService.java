@@ -53,11 +53,9 @@ public class PersonService implements CRUDServices<Person, Long> {
             valid.fieldEmpty(person);
             person.setPassword(encrypt.encode(person.getPassword()));
             person.setRol(Roles.Client);
-            personRepository.save(person);
             String numberAccount = WalletRepository.numberAccount() == null ? "1" : String.valueOf(Long.parseLong(WalletRepository.numberAccount()) + 1);
             String zero = "0000000000".substring(0,"0000000000".length() - numberAccount.length());
             WalletRepository.save(new VirtualWallet(zero + numberAccount, 0.0, person));
-            
 
             return ResponseEntity.status(HttpStatus.CREATED).body(person);
         } catch (YOWException e) {
