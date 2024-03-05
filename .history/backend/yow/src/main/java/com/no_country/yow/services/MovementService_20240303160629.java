@@ -17,7 +17,6 @@ public class MovementService implements CRUDServices<Movement, Long> {
     @Autowired
     private MovementRepository repository;
 
-    @SuppressWarnings("null")
     @Override
     public ResponseEntity<?> save(Movement data) throws YOWException {
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(data));

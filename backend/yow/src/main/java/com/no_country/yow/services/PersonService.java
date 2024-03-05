@@ -31,8 +31,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class PersonService implements CRUDServices<Person, Long> {
 
     @Autowired
-    private PersonRepository personRepository; 
-    
+    private PersonRepository personRepository;
+
     private final CallExceptionYOW valid = new CallExceptionYOW();
 
     @Autowired
@@ -40,30 +40,31 @@ public class PersonService implements CRUDServices<Person, Long> {
 
     @Autowired
     private PasswordEncoder encrypt;
-    private SendEmail sendEmail; 
+    private SendEmail sendEmail;
 
-    
 //    public PersonService(PersonRepository personRepository) {
 //        this.personRepository = personRepository;
 //    }
-
     // Método para registrar a la persona en la base de datos y crear su billetera
+    @Transactional
     @Override
     public ResponseEntity<?> save(Person person) throws YOWException {
         try {
             valid.fieldEmpty(person);
             person.setPassword(encrypt.encode(person.getPassword()));
             person.setRol(Roles.Client);
-            personRepository.save(person); 
-            WalletRepository.save(new VirtualWallet(0.0, person));
-            return ResponseEntity.status(HttpStatus.CREATED).body(person); 
+            personRepository.save(person);
+            String numberAccount = WalletRepository.numberAccount() == null ? "1" : String.valueOf(Long.parseLong(WalletRepository.numberAccount()) + 1);
+            String zero = "0000000000".substring(0,"0000000000".length() - numberAccount.length());
+            WalletRepository.save(new VirtualWallet(zero + numberAccount, 0.0, person));
+            
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(person);
         } catch (YOWException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
 
-   
-    
 //    // Método para obtener todas las personas
 //    @Override
 //    public ResponseEntity<List<Person>> findAll() {
@@ -71,25 +72,24 @@ public class PersonService implements CRUDServices<Person, Long> {
 //
 //        return ResponseEntity.ok().body(listPerson);
 //    }
-
     // Método para cambiar la contraseña de una persona
-    @Transactional 
+    @Transactional
     public ResponseEntity<?> updatePassword(String numdocument, String newPassword) throws YOWException {
         try {
             Person person = new Person();
-            ResponseEntity<?> result = findByNumberDocument(numdocument); 
-            personRepository.updatePassword(numdocument, encrypt.encode(newPassword)); 
+            ResponseEntity<?> result = findByNumberDocument(numdocument);
+            personRepository.updatePassword(numdocument, encrypt.encode(newPassword));
 
             person = (Person) result.getBody();
 
-            sendEmail = new SendEmail(); 
+            sendEmail = new SendEmail();
 
-            sendEmail.createEmail(person.getEmail(), newPassword); 
+            sendEmail.createEmail(person.getEmail(), newPassword);
             sendEmail.sendEmail();
 
-            return ResponseEntity.ok().body("Contraseña Actualizada Exitosamente"); 
+            return ResponseEntity.ok().body("Contraseña Actualizada Exitosamente");
         } catch (YOWException e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage()); 
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
     }
 

@@ -12,6 +12,8 @@ import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.services.PersonService;
 
+import javax.annotation.security.PermitAll;
+
 /**
  *
  * @author jpach

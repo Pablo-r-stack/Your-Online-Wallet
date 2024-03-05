@@ -52,7 +52,7 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
         } catch (StreamReadException e) {
             throw new RuntimeException(e);
         } catch (DatabindException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -83,7 +83,7 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
         // Crea un mapa para la respuesta HTTP
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("token", token);
-        httpResponse.put("message", "Authentication successful");
+//        httpResponse.put("message", "Authentication successful");
         httpResponse.put("User", message);
 
         // Escribe la respuesta en formato JSON en el cuerpo de la respuesta

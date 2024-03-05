@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.exc.StreamReadException;
 import com.fasterxml.jackson.databind.DatabindException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.no_country.yow.dto.UserDTO;
-import com.no_country.yow.exceptions.YOWException;
-import com.no_country.yow.models.Person;
 import com.no_country.yow.security.jwt.JwtUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -21,8 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 
 @Slf4j
@@ -52,7 +49,7 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
         } catch (StreamReadException e) {
             throw new RuntimeException(e);
         } catch (DatabindException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -77,14 +74,13 @@ public class JwtAuthenticationFilter  extends UsernamePasswordAuthenticationFilt
         // Agrega el token JWT al encabezado de la respuesta
         response.addHeader("Authorization", token);
         
-        String number = (String) user.getUsername();
-         UserDTO message = jwtUtils.message(number);
+                                                    }
         
         // Crea un mapa para la respuesta HTTP
         Map<String, Object> httpResponse = new HashMap<>();
         httpResponse.put("token", token);
-        httpResponse.put("message", "Authentication successful");
-        httpResponse.put("User", message);
+//        httpResponse.put("message", "Authentication successful");
+        // httpResponse.put("User", message);
 
         // Escribe la respuesta en formato JSON en el cuerpo de la respuesta
         response.getWriter().write(new ObjectMapper().writeValueAsString(httpResponse));
