@@ -21,7 +21,7 @@ public class VirtualWallet {
     @NonNull
     private Double balance;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.PERSIST, orphanRemoval = true)
     @NonNull
     @JoinColumn(name = "id_client")
     private Person person;
