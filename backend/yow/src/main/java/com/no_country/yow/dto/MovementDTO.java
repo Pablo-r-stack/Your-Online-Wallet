@@ -19,6 +19,7 @@ public class MovementDTO {
     private Services id;
     private Date date;
     private Double mount;
+    private Boolean successful;
     
     
 }

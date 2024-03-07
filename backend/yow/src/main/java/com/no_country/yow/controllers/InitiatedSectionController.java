@@ -116,16 +116,13 @@ public class InitiatedSectionController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
-    
 
     @PostMapping("/rechargeAccount/{numberDocument}")
-    public ResponseEntity<?> rechargeAccount(@PathVariable("numberDocument") String numberDocument,@RequestParam("mount") Double mount){
-        
+    public ResponseEntity<?> rechargeAccount(@PathVariable("numberDocument") String numberDocument, @RequestParam("mount") Double mount) {
+
         Person person = (Person) beanPerson.findByNumberDocument(numberDocument).getBody();
-        
-        
-        
-        return null;
+
+        return beanVirtualWallet.recharge(person, mount);
     }
 
     public VirtualWallet virtualWalletFindById(Long id) throws YOWException {

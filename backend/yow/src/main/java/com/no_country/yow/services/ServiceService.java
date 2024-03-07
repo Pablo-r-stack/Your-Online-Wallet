@@ -21,13 +21,13 @@ public class ServiceService implements CRUDServices<Services, Long> {
         return ResponseEntity.ok().body(listService);
     }
     
-    public Long findByName(String name){
+    public Services findByName(String name){
         
         try {
-            Long id = repository.findByName(name);
+            Services id = repository.findByName(name);
             
-            if(id == null || id == 0){
-                throw new Exception("El Servicio solicitado no se Encuentra Diponible");
+            if(id == null){
+                throw new Exception("El Servicio solicitado no se encuentra diponible");
             }
             return id;
         } catch (Exception e) {

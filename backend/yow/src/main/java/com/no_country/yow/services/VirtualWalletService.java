@@ -32,6 +32,7 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
     @Autowired
     private ServiceService serviceService;
     
+    
     @Transactional
     @SuppressWarnings("null")
     @Override
@@ -103,14 +104,11 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
         
         try {
             repository.recharge(person, mount);
-            Movement  movement = new Movement(new Date(), mount, true,null, null);
-            
-            
-            
-            
+            Movement movement = new Movement(new Date(), mount, true,serviceService.findByName("Recarga"),(VirtualWallet) findByIdClient(person).getBody());
+            movementService.save(movement);
             return ResponseEntity.ok().body("Recargar Exitosa");
         } catch (Exception e) {
-            
+            log.info("Error: " + e.getMessage());
           return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al recargar intente mas tarde");
         }
         

@@ -16,7 +16,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ServiceRepository extends JpaRepository<Services, Long>{
     
-    @Query("SELECT s.id FROM Services s WHERE s.service = ?1")
-    public Long findByName(String name);
+    @Query("SELECT s FROM Services s WHERE s.service = ?1")
+    public Services findByName(String name);
     
 }

@@ -21,10 +21,15 @@ public class MovementService implements CRUDServices<Movement, Long> {
     @Autowired
     private MovementRepository repository;
 
-    @SuppressWarnings("null")
     @Override
     public ResponseEntity<?> save(Movement data) throws YOWException {
+        try {
+            
+        repository.save(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(repository.save(data));
+        } catch (Exception e) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error: al guardar el registro del movimiento");
+        }
     }
 
     @Override

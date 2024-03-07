@@ -3,6 +3,7 @@ package com.no_country.yow.repositories;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.models.VirtualWallet;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.http.ResponseEntity;
 
@@ -15,6 +16,7 @@ public interface VirtualWalletRepository extends JpaRepository<VirtualWallet, Lo
     public VirtualWallet virtualWalletByIdClient(Person person);
     
     
+    @Modifying
     @Query("UPDATE VirtualWallet vw SET vw.balance = ?2 WHERE vw.person = ?1")
-    public ResponseEntity<?> recharge(Person person, Double mount);
+    public void recharge(Person person, Double mount);
 }
