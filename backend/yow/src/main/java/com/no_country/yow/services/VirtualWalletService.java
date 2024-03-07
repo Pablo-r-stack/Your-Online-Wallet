@@ -103,8 +103,10 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
     public ResponseEntity<?> recharge(Person person, Double mount){
         
         try {
-            repository.recharge(person, mount);
-            Movement movement = new Movement(new Date(), mount, true,serviceService.findByName("Recarga"),(VirtualWallet) findByIdClient(person).getBody());
+            
+            VirtualWallet vw = (VirtualWallet) findByIdClient(person).getBody();
+            repository.recharge(person, mount + vw.getBalance());
+            Movement movement = new Movement(new Date(), mount, true,serviceService.findByName("Recarga"),((VirtualWallet) findByIdClient(person).getBody()));
             movementService.save(movement);
             return ResponseEntity.ok().body("Recargar Exitosa");
         } catch (Exception e) {
