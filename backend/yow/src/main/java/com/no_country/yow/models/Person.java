@@ -5,17 +5,11 @@
 package com.no_country.yow.models;
 
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Size;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.no_country.yow.enums.Roles;
 
 import lombok.Data;
@@ -44,11 +38,11 @@ public class Person {
     @Column(nullable = false)
     private String password;
     @OneToOne
-    private Countries country;
+    @JoinColumn(name = "country_id")
+    private Country country;
 
     @Enumerated(EnumType.STRING)
+    @JoinColumn(name = "rol_id")
     private Roles rol;
-    
-    
-    
+
 }

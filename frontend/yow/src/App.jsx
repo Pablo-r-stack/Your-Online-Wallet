@@ -1,32 +1,36 @@
 import './App.css'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Footer from './components/Footer'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import HomePage from './pages/HomePage'
-import Navbar1 from './components/Navbar1'
 import Faq from './pages/Faq'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import ProtectedRoute from './pages/ProtectedRoute'
+import { AuthProvider } from './auth/AuthProvider'
+import Navbar1 from './components/Navbar1'
+import Footer from './components/Footer'
+import Dashboard from './pages/Dashboard';
 
 
 
 
 function App() {
-
   return (
-    <BrowserRouter>
-      <div className="flex flex-col min-h-screen">
+    <AuthProvider>
+      <Router className="flex flex-col min-h-screen">
         <Navbar1 />
-        <div className="flex-grow">
-          <Routes>
-            <Route path='/' element={<HomePage />} />
-            <Route path='/faq' element={<Faq />} />
-            <Route path='/login' element={<Login />} />
-            <Route path='/register' element={<Register />} />
-          </Routes>
-        </div>
+        <Routes className="flex-grow">
+          <Route path="/" element={<HomePage />} />
+          <Route path="/faq" element={<Faq />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+        </Routes>
         <Footer />
-      </div>
-    </BrowserRouter>
+      </Router>
+    </AuthProvider>
+
   )
 }
 
