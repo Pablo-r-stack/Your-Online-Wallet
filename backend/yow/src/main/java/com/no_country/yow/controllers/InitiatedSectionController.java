@@ -106,7 +106,7 @@ public class InitiatedSectionController {
                             virtualWallet.setBalance(virtualWallet.getBalance() - transferContact.getBalance());
                             beanVirtualWallet.save(v);
                             beanVirtualWallet.save(virtualWallet);
-                            return ResponseEntity.ok().body("Transferencia existosa");
+                            return beanVirtualWallet.transfer(transferContact.getBalance(),virtualWallet);
                         }
                     }
                 }

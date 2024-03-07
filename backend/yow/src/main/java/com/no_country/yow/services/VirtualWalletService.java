@@ -111,9 +111,20 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
             return ResponseEntity.ok().body("Recargar Exitosa");
         } catch (Exception e) {
             log.info("Error: " + e.getMessage());
-          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al recargar intente mas tarde");
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al recargar, intente mas tarde");
         }
         
+    }
+
+    @Transactional
+    public ResponseEntity<?> transfer(Double mount, VirtualWallet virtualWallet){
+        try {
+            Movement movement = new Movement(new Date(), mount, true, serviceService.findByName("Transferencia"), virtualWallet);
+            return ResponseEntity.ok().body("Transferencia Exitosa");
+        } catch (Exception e) {
+            log.info("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al transferir, intente mas tarde");
+        }
     }
 
     public List<VirtualWallet> listVirtualWallet() {
