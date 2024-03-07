@@ -33,7 +33,6 @@ const Form = () => {
       const response = await axios.post(`${API_URL}/yow/login`, user);
       if(response){
         console.log('Login succesful');
-        console.log(response.data);
         auth.saveUser(response.data);
         navigate("/dashboard");
       }

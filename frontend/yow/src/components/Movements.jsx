@@ -1,6 +1,11 @@
 import React from 'react'
 
-export default function Movements({transaction, ammount}) {
+export default function Movements({ transaction, ammount, date }) {
+    const formattedDate = new Date(date).toLocaleDateString('es-ES', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
     return (
         <details className="group rounded-lg [&_summary::-webkit-details-marker]:hidden border border-gray-100 shadow-md shadow-zinc-500
          m-4 p-0 hover:shadow-lg hover:shadow-zinc-500 active:shadow-sm transition-all" open>
@@ -40,9 +45,11 @@ export default function Movements({transaction, ammount}) {
                 </span>
             </summary>
 
-            <p className="px-4 py-1 text-md text-zinc-900">
-                {ammount}
-            </p>
+            <div className="px-4 py-1 text-md text-zinc-900 flex justify-between">
+                <span>{ammount}</span>
+                <span>{formattedDate}</span>
+            </div>
+
         </details>
     )
 }

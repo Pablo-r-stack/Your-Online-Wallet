@@ -2,14 +2,14 @@ import { createContext, useContext, useEffect, useState } from "react"
 import { API_URL } from "./constants";
 
 const AuthContext = createContext({
-    isAuthenticated:"",
+    isAuthenticated: "",
     getAccesToken: () => { },
-    saveUser: (userData) => { },
+    saveUser: (response) => { },
     /**get refresh token? */
 })
 
 export function AuthProvider({ children }) {
-    const [user, setUser] = useState();
+    const [user, setUser] = useState({});
     const [accessToken, setAccesstoken] = useState('');
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
@@ -21,41 +21,47 @@ export function AuthProvider({ children }) {
         return accessToken;
     }
 
-    function saveUser(userData) {
-        console.log(`${userData.JSON} from auth provider`);
-        saveSessionInfo(userData.User, userData.token);
+    function saveUser(response) {
+        saveSessionInfo(response);
     }
 
-    function saveSessionInfo(userInfo, accessToken) {
-        setAccesstoken(accessToken);
-        localStorage.setItem('token', accessToken);
-        console.log('token stored');
-        setUser(userInfo);
-        console.log('user stored');
+    function logOut() {
+        setAccesstoken('');
+        localStorage.removeItem('token');
+        setIsAuthenticated(false);
+    }
+
+    function saveSessionInfo(response) {
+        const { token, User } = response;
+        setAccesstoken(token);
+        localStorage.setItem('token', token);
+        console.log('Token saved:', token);
+        setUser(User);
+        console.log('User saved:', User);
         setIsAuthenticated(true);
     }
 
-    async function getUserInfo(accessToken){
-        try{
+    async function getUserInfo(accessToken) {
+        try {
             const response = axios.get(`${API_URL}/yow`)
-            if(response.ok){
+            if (response.ok) {
                 const json = await response.json();
             }
             return json;
-        }catch(error){
+        } catch (error) {
             console.log(error)
             return null;
         }
     }
 
-    async function checkAuth(){
+    async function checkAuth() {
         return isAuthenticated;
     }
 
-    function getAccessToken(){
+    function getAccessToken() {
         const token = localStorage.getItem('token');
-        if(token){
-            const {accessToken} = JSON.parse(token);
+        if (token) {
+            const { accessToken } = JSON.parse(token);
             return accessToken;
         }
         return null;
@@ -63,7 +69,7 @@ export function AuthProvider({ children }) {
 
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, getAccessToken, saveUser }}>
+        <AuthContext.Provider value={{ isAuthenticated, getAccessToken, user, saveUser, logOut }}>
             {children}
         </AuthContext.Provider>
     );

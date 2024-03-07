@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 export default function EyeToggle({ defaultText }) {
-    const [isTextVisible, setIsTextVisible] = useState(false);
+    const [isTextVisible, setIsTextVisible] = useState(true);
 
     const toggleTextVisibility = () => {
         setIsTextVisible(prevState => !prevState);
