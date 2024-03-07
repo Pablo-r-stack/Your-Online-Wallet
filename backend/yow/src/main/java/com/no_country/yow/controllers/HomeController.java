@@ -18,7 +18,6 @@ import com.no_country.yow.services.PersonService;
  */
 @RestController
 @RequestMapping("/yow")
-// @Slf4j
 public class HomeController {
 
 

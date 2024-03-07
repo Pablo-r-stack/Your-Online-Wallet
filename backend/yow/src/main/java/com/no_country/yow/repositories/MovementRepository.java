@@ -9,6 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface MovementRepository extends JpaRepository<Movement, Long> {
     
-    @Query("SELECT new com.no_country.yow.dto.MovementDTO(m.id, m.date, m.mount) FROM Movement m WHERE m.wallet = ?1")
+    @Query("SELECT new com.no_country.yow.dto.MovementDTO(m.services, m.date, m.mount) FROM Movement m WHERE m.wallet = ?1")
     public List<MovementDTO> movementByClient(VirtualWallet virtualWallet);
 }

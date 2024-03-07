@@ -6,6 +6,7 @@ package com.no_country.yow.repositories;
 
 import com.no_country.yow.models.Services;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 /**
@@ -14,5 +15,8 @@ import org.springframework.stereotype.Repository;
  */
 @Repository
 public interface ServiceRepository extends JpaRepository<Services, Long>{
+    
+    @Query("SELECT s.id FROM Services s WHERE s.service = ?1")
+    public Long findByName(String name);
     
 }

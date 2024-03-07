@@ -4,6 +4,7 @@
  */
 package com.no_country.yow.dto;
 
+import com.no_country.yow.models.Services;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,7 +16,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class MovementDTO {
-    private Long id;
+    private Services id;
     private Date date;
     private Double mount;
     

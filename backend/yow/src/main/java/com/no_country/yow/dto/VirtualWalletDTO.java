@@ -12,15 +12,12 @@ import java.util.List;
 public class VirtualWalletDTO implements Serializable {
 
 //    private Long id;
-//    private String name ;
+//    private String name;
 //    private String lastName;
     private Double balance;
     private List<MovementDTO> movements;
-    private List<Services> services;
 
-
-    public VirtualWalletDTO(){
+    public VirtualWalletDTO() {
         this.movements = new ArrayList<>();
-        this.services = new ArrayList<>();
     }
 }

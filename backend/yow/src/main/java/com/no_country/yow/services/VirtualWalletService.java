@@ -1,10 +1,13 @@
 package com.no_country.yow.services;
 
 import com.no_country.yow.exceptions.YOWException;
+import com.no_country.yow.models.Movement;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.models.VirtualWallet;
+import com.no_country.yow.repositories.MovementRepository;
 import com.no_country.yow.repositories.PersonRepository;
 import com.no_country.yow.repositories.VirtualWalletRepository;
+import java.util.Date;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,9 +22,16 @@ import org.springframework.http.HttpStatus;
 @Service
 public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
 
+
     @Autowired
     private VirtualWalletRepository repository;
 
+    @Autowired
+    private MovementService  movementService;
+    
+    @Autowired
+    private ServiceService serviceService;
+    
     @Transactional
     @SuppressWarnings("null")
     @Override
@@ -86,6 +96,24 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
 
+    }
+    
+    @Transactional
+    public ResponseEntity<?> recharge(Person person, Double mount){
+        
+        try {
+            repository.recharge(person, mount);
+            Movement  movement = new Movement(new Date(), mount, true,null, null);
+            
+            
+            
+            
+            return ResponseEntity.ok().body("Recargar Exitosa");
+        } catch (Exception e) {
+            
+          return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al recargar intente mas tarde");
+        }
+        
     }
 
     public List<VirtualWallet> listVirtualWallet() {

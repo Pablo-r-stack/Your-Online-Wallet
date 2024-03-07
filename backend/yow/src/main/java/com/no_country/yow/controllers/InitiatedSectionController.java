@@ -54,7 +54,6 @@ public class InitiatedSectionController {
 //        user.setLastName(data.getLastName());
             user.setBalance(virtualWallet.getBalance());
             user.setMovements(movements);
-            user.setServices((List<Services>) beanServiceService.findAll().getBody());
 
             return ResponseEntity.ok().body(user);
 
@@ -116,6 +115,17 @@ public class InitiatedSectionController {
         } catch (YOWException e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
+    }
+    
+
+    @PostMapping("/rechargeAccount/{numberDocument}")
+    public ResponseEntity<?> rechargeAccount(@PathVariable("numberDocument") String numberDocument,@RequestParam("mount") Double mount){
+        
+        Person person = (Person) beanPerson.findByNumberDocument(numberDocument).getBody();
+        
+        
+        
+        return null;
     }
 
     public VirtualWallet virtualWalletFindById(Long id) throws YOWException {
