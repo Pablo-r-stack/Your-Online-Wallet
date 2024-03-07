@@ -1,5 +1,6 @@
 package com.no_country.yow.controllers;
 
+import com.no_country.yow.dto.MovementDTO;
 import com.no_country.yow.dto.TransferContact;
 import com.no_country.yow.dto.VirtualWalletDTO;
 import com.no_country.yow.exceptions.YOWException;
@@ -44,7 +45,7 @@ public class InitiatedSectionController {
             Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
             Person data = (Person) beanPerson.findByNumberDocument(authentication.getName()).getBody();
             VirtualWallet virtualWallet = (VirtualWallet) beanVirtualWallet.findByIdClient(data).getBody();
-            List<Movement> movements = (List<Movement>) beanMovementService.findByIdClient(virtualWallet).getBody();
+            List<MovementDTO> movements = (List<MovementDTO>) beanMovementService.findByIdClient(virtualWallet).getBody();
 
             VirtualWalletDTO user = new VirtualWalletDTO();
 

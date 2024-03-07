@@ -15,7 +15,7 @@ public class VirtualWalletDTO implements Serializable {
 //    private String name ;
 //    private String lastName;
     private Double balance;
-    private List<Movement> movements;
+    private List<MovementDTO> movements;
     private List<Services> services;
 
 

@@ -1,5 +1,6 @@
 package com.no_country.yow.services;
 
+import com.no_country.yow.dto.MovementDTO;
 import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Movement;
 import com.no_country.yow.models.VirtualWallet;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Service
 public class MovementService implements CRUDServices<Movement, Long> {
 
@@ -70,10 +73,16 @@ public class MovementService implements CRUDServices<Movement, Long> {
     
     //Los movimientos pueden estar vacios por tal motivo no es necesario colocar excepcion de un posible null
         public ResponseEntity<?> findByIdClient(VirtualWallet virtualWallet) {
-
-            List<Movement> movement = repository.movementByClient(virtualWallet);
+            try {
+            List<MovementDTO> movement = repository.movementByClient(virtualWallet);
 
             return ResponseEntity.ok().body(movement);
+                
+            } catch (Exception e) {
+                log.info("Error: " + e.getMessage());
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+            }
+
 
     }
 }
