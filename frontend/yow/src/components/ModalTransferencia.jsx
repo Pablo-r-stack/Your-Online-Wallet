@@ -49,14 +49,14 @@ const Modal = () => {
                 </button>
               </div>
               <div>
-                <div className="sm:flex sm:items-center">
+                <div className="sm:flex sm:items-center justify-center">
                   <div className="mt-3 text-center sm:mt-0 sm:text-center">
                     <h3 className="text-lg leading-6 font-bold text-gray-900 text-center" id="modal-title">
                       Transferencia
                     </h3>
                     <div className="mt-2 flex flex-col justify-center items-center">
                       <p className="text-sm text-black">
-                        Para realizar una transferencia, por favor complete los siguientes datos!
+                        Para realizar una transferencia complete los siguientes datos!
                       </p>
                       <input
                         type="text"
