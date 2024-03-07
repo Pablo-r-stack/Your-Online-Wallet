@@ -1,27 +1,25 @@
 package com.no_country.yow.controllers;
 
-import com.no_country.yow.dto.UserDTO;
+import com.no_country.yow.dto.TransferContact;
 import com.no_country.yow.dto.VirtualWalletDTO;
+import com.no_country.yow.exceptions.YOWException;
+import com.no_country.yow.models.Contact;
 import com.no_country.yow.models.Movement;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.models.Services;
 import com.no_country.yow.models.VirtualWallet;
-import com.no_country.yow.repositories.VirtualWalletRepository;
+import com.no_country.yow.services.ContactService;
 import com.no_country.yow.services.MovementService;
 import com.no_country.yow.services.PersonService;
 import com.no_country.yow.services.ServiceService;
-import com.no_country.yow.services.VirtualWalletService;
-import java.util.List;
 import javax.websocket.server.PathParam;
+import com.no_country.yow.services.VirtualWalletService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import java.util.List;
 
 @RestController
 @RequestMapping("/initiated")
@@ -37,7 +35,6 @@ public class InitiatedSectionController {
         this.beanVirtualWallet = virtualWalletService;
         this.beanMovementService = movementService;
         this.beanServiceService = serviceService;
-
     }
 
     @GetMapping("/dashboard")
@@ -76,4 +73,61 @@ public class InitiatedSectionController {
     public ResponseEntity<?> saveUpdate(@RequestBody Person updatePerson) {
         return beanPerson.updatePerson(updatePerson);
     }
+
+
+    /* --- Transferencias --- */
+    // Añadir contacto a la virtual wallet para posteriormente poderle transferir
+    // Se necesita el id del virtual wallet
+    @PostMapping("/create-contact/{id}")
+    public ResponseEntity<?> createContact(@RequestBody Contact contact, @PathVariable Long id) throws YOWException {
+        // Busca la persona por number document
+        Person person = personFindByNumberDocument(contact.getNumberIdentification());
+
+        // Busca el Virtual Wallet por ID
+        VirtualWallet virtualWallet = virtualWalletFindById(id);
+        virtualWallet.addContact(contact); // Guarda el contacto dentro de Virtual Wallet
+        return beanVirtualWallet.save(virtualWallet); // Persiste ambas entidades
+    }
+
+    @PostMapping("/transfer-contact/{idVirtualWallet}")
+    public ResponseEntity<?> transferToContact(@RequestBody TransferContact transferContact, @PathVariable Long idVirtualWallet) {
+        try {
+            // Busca el Virtual Wallet por ID
+            VirtualWallet virtualWallet = virtualWalletFindById(idVirtualWallet);
+
+            List<Contact> contactList = virtualWallet.getContacts();
+            for (Contact c : contactList) {
+                if (c.getAlias().equals(transferContact.getAlias())) {
+                    Person person = personFindByNumberDocument(c.getNumberIdentification());
+                    List<VirtualWallet> virtualWalletList = beanVirtualWallet.listVirtualWallet();
+                    for (VirtualWallet v : virtualWalletList) {
+                        if (v.getPerson().getId().equals(person.getId())) {
+                            v.setBalance(v.getBalance() + transferContact.getBalance());
+                            virtualWallet.setBalance(virtualWallet.getBalance() - transferContact.getBalance());
+                            beanVirtualWallet.save(v);
+                            beanVirtualWallet.save(virtualWallet);
+                            return ResponseEntity.ok().body("Transferencia existosa");
+                        }
+                    }
+                }
+            }
+            return ResponseEntity.notFound().build();
+        } catch (YOWException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
+    public VirtualWallet virtualWalletFindById(Long id) throws YOWException {
+        // Busca el virtual wallet por id, si no existe lanza una excepcion
+        VirtualWallet virtualWallet = new VirtualWallet();
+        ResponseEntity<?> result = beanVirtualWallet.findById(id);
+        return (VirtualWallet) result.getBody();
+    }
+
+    public Person personFindByNumberDocument(String numberDocument) {
+        // Valida el contacto por numberDocument, si no existe lanza una excepcion
+        ResponseEntity<?> response = beanPerson.findByNumberDocument(numberDocument);
+        return (Person) response.getBody();
+    }
+
 }

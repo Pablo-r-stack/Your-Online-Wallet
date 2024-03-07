@@ -3,26 +3,31 @@ package com.no_country.yow.services;
 import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Person;
 import com.no_country.yow.models.VirtualWallet;
+import com.no_country.yow.repositories.PersonRepository;
 import com.no_country.yow.repositories.VirtualWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 
 @Slf4j
 @Service
-public class VirtualWalletService implements CRUDServices<VirtualWallet, String> {
+public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
 
     @Autowired
     private VirtualWalletRepository repository;
 
+    @Transactional
     @SuppressWarnings("null")
     @Override
     public ResponseEntity<?> save(VirtualWallet wallet) throws YOWException {
         repository.save(wallet);
-        return ResponseEntity.ok("Billetera Creada");
+        return ResponseEntity.ok("Billetera Creada / Actualizada");
     }
 
 //    @Override
@@ -55,13 +60,15 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
     }
 
     @Override
-    public ResponseEntity<?> updateById(VirtualWallet t, String id) throws YOWException {
+    public ResponseEntity<?> updateById(VirtualWallet t, Long id) throws YOWException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
+    @Transactional(readOnly = true)
     @Override
-    public ResponseEntity<?> findById(String id) throws YOWException {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public ResponseEntity<?> findById(Long id) throws YOWException {
+        VirtualWallet virtualWallet = repository.findById(id).orElseThrow();
+        return ResponseEntity.ok().body(virtualWallet);
     }
 
     public ResponseEntity<?> findByIdClient(Person person) {
@@ -80,4 +87,9 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
         }
 
     }
+
+    public List<VirtualWallet> listVirtualWallet() {
+        return repository.findAll();
+    }
+
 }

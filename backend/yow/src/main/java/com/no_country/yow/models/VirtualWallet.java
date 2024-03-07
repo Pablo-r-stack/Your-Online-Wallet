@@ -1,9 +1,9 @@
 package com.no_country.yow.models;
-
 import lombok.Data;
 import lombok.NonNull;
 import javax.persistence.*;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import lombok.NoArgsConstructor;
 
@@ -28,5 +28,21 @@ public class VirtualWallet {
     @JoinColumn(name = "id_client")
     private Person person;
 
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "id_contact")
+    private List<Contact> contacts;
 
+    public VirtualWallet() {
+        this.contacts = new ArrayList<>();
+    }
+
+    public VirtualWallet(String numberAccount, Double balance, Person person){
+        this.numberAccount = numberAccount;
+        this.balance = balance;
+        this.person = person;
+    }
+
+    public void addContact(Contact contact){
+        this.contacts.add(contact);
+    }
 }
