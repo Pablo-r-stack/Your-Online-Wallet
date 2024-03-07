@@ -54,7 +54,7 @@ public class PersonService implements CRUDServices<Person, Long> {
             person.setPassword(encrypt.encode(person.getPassword()));
             person.setRol(Roles.Client);
             String numberAccount = WalletRepository.numberAccount() == null ? "1" : String.valueOf(Long.parseLong(WalletRepository.numberAccount()) + 1);
-            String zero = "0000000000".substring(0,"0000000000".length() - numberAccount.length());
+            String zero = "0000000000".substring(0, "0000000000".length() - numberAccount.length());
             WalletRepository.save(new VirtualWallet(zero + numberAccount, 0.0, person));
 
             return ResponseEntity.status(HttpStatus.CREATED).body(person);
@@ -107,6 +107,18 @@ public class PersonService implements CRUDServices<Person, Long> {
 
     }
 
+    @Transactional
+    public ResponseEntity<?> updatePerson(Person person) {
+        
+        try {
+        personRepository.update(person.getName(), person.getLastName(), person.getEmail(), person.getPassword(), person.getId());
+            return ResponseEntity.status(HttpStatus.OK).body("Registro Exitoso");
+        } catch(Exception e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("El correo ya se encuentra registrado.");
+            
+        }
+    }
+
     @Override
     public ResponseEntity<List<Person>> findAll() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -121,5 +133,7 @@ public class PersonService implements CRUDServices<Person, Long> {
     public ResponseEntity<?> findById(Long id) throws YOWException {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+    
+   
 
 }

@@ -2,6 +2,7 @@ package com.no_country.yow.services;
 
 import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Movement;
+import com.no_country.yow.models.VirtualWallet;
 import com.no_country.yow.repositories.MovementRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -65,5 +66,14 @@ public class MovementService implements CRUDServices<Movement, Long> {
     @Override
     public ResponseEntity<?> findById(Long id) throws YOWException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+    
+    //Los movimientos pueden estar vacios por tal motivo no es necesario colocar excepcion de un posible null
+        public ResponseEntity<?> findByIdClient(VirtualWallet virtualWallet) {
+
+            List<Movement> movement = repository.movementByClient(virtualWallet);
+
+            return ResponseEntity.ok().body(movement);
+
     }
 }

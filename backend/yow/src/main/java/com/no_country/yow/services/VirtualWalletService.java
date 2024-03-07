@@ -1,13 +1,17 @@
 package com.no_country.yow.services;
 
 import com.no_country.yow.exceptions.YOWException;
+import com.no_country.yow.models.Person;
 import com.no_country.yow.models.VirtualWallet;
 import com.no_country.yow.repositories.VirtualWalletRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 
+@Slf4j
 @Service
 public class VirtualWalletService implements CRUDServices<VirtualWallet, String> {
 
@@ -27,7 +31,6 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
 //
 //       return ResponseEntity.ok().body(listVirtualWallet);
 //    }
-
 //    @Override
 //    public ResponseEntity<?> updateById(VirtualWallet virtualWallet, String id) throws YOWException {
 //        Optional<VirtualWallet> virtualWalletOptional = repository.findById(id);
@@ -39,8 +42,6 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
 //        }
 //        return ResponseEntity.notFound().build();
 //    }
-
-
 //    @Override
 //    public ResponseEntity<?> findById(String id) throws YOWException {
 //        Optional<VirtualWallet> virtualWalletOptional = repository.findById(id);
@@ -48,7 +49,6 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
 //            return ResponseEntity.ok(virtualWalletOptional.get());
 //        return ResponseEntity.notFound().build();
 //    }
-
     @Override
     public ResponseEntity<List<VirtualWallet>> findAll() {
         throw new UnsupportedOperationException("Not supported yet.");
@@ -62,5 +62,22 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, String>
     @Override
     public ResponseEntity<?> findById(String id) throws YOWException {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    public ResponseEntity<?> findByIdClient(Person person) {
+
+        try {
+            VirtualWallet virtualWallet = repository.virtualWalletByIdClient(person);
+
+            if (virtualWallet == null) {
+                throw new Exception("El usuario no tiene billetera activa");
+
+            }
+            return ResponseEntity.ok().body(virtualWallet);
+        } catch (Exception e) {
+            log.info("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+
     }
 }

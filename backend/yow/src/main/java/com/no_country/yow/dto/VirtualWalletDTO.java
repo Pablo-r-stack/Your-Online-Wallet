@@ -1,5 +1,7 @@
 package com.no_country.yow.dto;
 
+import com.no_country.yow.models.Movement;
+import com.no_country.yow.models.Services;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -9,15 +11,16 @@ import java.util.List;
 @Data
 public class VirtualWalletDTO implements Serializable {
 
-    private String name ;
-    private String lastName;
-    private String balance;
-    private List<String> amountMovement;
-    private List<String> date;
+//    private Long id;
+//    private String name ;
+//    private String lastName;
+    private Double balance;
+    private List<Movement> movements;
+    private List<Services> services;
 
 
     public VirtualWalletDTO(){
-        this.amountMovement = new ArrayList<>();
-        this.date = new ArrayList<>();
+        this.movements = new ArrayList<>();
+        this.services = new ArrayList<>();
     }
 }
