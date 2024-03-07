@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import Button3 from './btn/Button3';
 
-const Modal = () => {
+const ModalPagos = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [monto, setMonto] = useState('');
   const [nombreDeLaEmpresa, setNombre] = useState('');
@@ -125,9 +126,9 @@ const Modal = () => {
           </div>
         </div>
       )}
-      <button onClick={toggleModal}>Abrir Modal</button>
+      <Button3 text='Pagar Servicios' onClick={toggleModal} />
     </div>
   );
 };
 
-export default Modal;
+export default ModalPagos;

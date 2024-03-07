@@ -1,9 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import Button3 from './btn/Button3'
 import EyeToggle from './btn/EyeToggle'
+import ModalTransferencia from './ModalTransferencia';
+import ModalPagos from './ModalPagos';
+import AddFundsModal from './AddFundsModal';
 
 export default function AccountCard({balance}) {
+
     return (
         <div>
             <section className="flex flex-col group rounded-lg [&_summary::-webkit-section-marker]:hidden border-2 space-y-8 p-10 bg-gray-100 border-zinc-900 shadow-md shadow-zinc-500 transition-all">
@@ -13,11 +17,12 @@ export default function AccountCard({balance}) {
                     <EyeToggle defaultText={`$ ${balance}`}/>
                     </div>
                 </div>
-                <div className='flex items-center justify-center space-x-4'>
-                    <Button3 text='Ingresar Dinero' />
-                    <Button3 text='Transferir' />
-                    <Button3 text='Pagar Servicios' />
+                <div className='flex items-center justify-center pt-8 space-x-4 h-36'>
+                    <AddFundsModal />
+                    <ModalTransferencia />
+                    <ModalPagos />
                 </div>
+
             </section >
         </div >
 

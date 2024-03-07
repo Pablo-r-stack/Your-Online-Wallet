@@ -1,37 +1,40 @@
 import React, { useState } from 'react';
 import Button3 from './btn/Button3';
 
-const ModalTransferencia = () => {
-
+const AddFundsModal = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [monto, setMonto] = useState('');
-  const [cuenta, setCuenta] = useState('');
+  const [password, setPassword] = useState('');
   const [accionRealizada, setAccionRealizada] = useState(false);
+  const [cancelado, setCancelado] = useState(false);
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
     setAccionRealizada(false);
+    setCancelado(false);
   };
 
   const handleAceptar = () => {
-    // Aquí puedes realizar las acciones necesarias con el monto y la cuenta
     console.log("Monto:", monto);
     console.log("Cuenta:", cuenta);
-    // toggleModal();
+    console.log("nombreDeLaEmpresa:", nombreDeLaEmpresa);
     setAccionRealizada(true);
   };
 
+  const handleCancelar = () => {
+    setTimeout(() => {
+      toggleModal();
+      setCancelado(true);
+      console.log("Pago cancelado");
+    }, 2000);
+  };
+
   const handleMontoChange = (event) => {
-    // Eliminamos caracteres que no sean números
     const value = event.target.value.replace(/\D/g, '');
-    // Agregamos el símbolo de pesos al valor
     setMonto('$' + value);
   };
 
-
   return (
-
-
     <div className='lg:flex-row lg:h-5/6 my-32 max-w-2xl'>
       {isOpen && (
         <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity">
@@ -52,26 +55,26 @@ const ModalTransferencia = () => {
               <div>
                 <div className="sm:flex sm:items-center justify-center">
                   <div className="mt-3 text-center sm:mt-0 sm:text-center">
-                    <h3 className="text-lg leading-6 font-bold text-gray-900 text-center" id="modal-title">
-                      Transferencia
+                    <h3 className="text-xl leading-6 font-bold text-gray-900 text-center" id="modal-title">
+                      Ingresar Dinero
                     </h3>
                     <div className="mt-2 flex flex-col justify-center items-center">
                       <p className="text-sm text-black">
-                        Para realizar una transferencia complete los siguientes datos!
+                        Ingrese monto a ingresar:
                       </p>
                       <input
                         type="text"
-                        placeholder="Monto a transferir"
+                        placeholder="Ingrese monto"
                         value={monto}
                         onChange={handleMontoChange}
-                        className="block mt-5 h-8 w-1/2 border-black   rounded-md shadow-sm border-2 border-solid sm:text-sm p-1"
+                        className="block mt-5 h-8 w-full border-black rounded-md shadow-sm border-2 border-solid sm:text-sm p-1"
                       />
                       <input
                         type="text"
-                        placeholder="Cuenta o alias"
-                        value={cuenta}
-                        onChange={(e) => setCuenta(e.target.value)}
-                        className="block mt-2 h-8 w-1/2 border-black rounded-md shadow-sm border-2 border-solid sm:text-sm uppercase p-1"
+                        placeholder="Ingrese su contraseña"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="block mt-2 h-8 w-full border-black rounded-md shadow-sm border-2 border-solid sm:text-sm uppercase p-1"
                       />
                     </div>
                   </div>
@@ -82,35 +85,42 @@ const ModalTransferencia = () => {
                   <>
                     <button
                       onClick={handleAceptar}
-                      className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-green-600 sm:ml-2 sm:w-auto sm:text-sm"
+                      className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-green-600 sm:mr-8 sm:w-auto sm:text-sm"
                     >
                       Aceptar
                     </button>
                     <button
-                      onClick={toggleModal}
-                      className="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-red-600  focus:ring-indigo-500 sm:mt-0 sm:mr-2 sm:w-auto sm:text-sm"
+                      onClick={handleCancelar}
+                      className="w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-black text-base font-medium text-white hover:bg-red-600  focus:ring-indigo-500 sm:mt-0 sm:ml-8 sm:w-auto sm:text-sm"
                     >
                       Cancelar
                     </button>
                   </>
                 ) : (
-                  <div className="flex items-center justify-center text-green-500">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                    </svg>
-                    <span>¡Realizado!</span>
-                  </div>
+                  cancelado ? (
+                    <div className="flex items-center justify-center text-red-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>¡Pago Cancelado!</span>
+                    </div>
+                  ) : (
+                    <div className="flex items-center justify-center text-green-500">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      <span>¡Pago Realizado!</span>
+                    </div>
+                  )
                 )}
               </div>
             </div>
           </div>
         </div>
       )}
-      <Button3 text='Transferir' onClick={toggleModal} />
+      <Button3 text='Ingresar Dinero' onClick={toggleModal} />
     </div>
+  );
+};
 
-
-  )
-}
-
-export default ModalTransferencia;
+export default AddFundsModal;
