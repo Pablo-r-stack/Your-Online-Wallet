@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import Button3 from './btn/Button3';
+import { useAuth } from '../auth/AuthProvider';
+import { useWallet } from '../auth/WalletProvider';
 
 const AddFundsModal = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -7,6 +9,8 @@ const AddFundsModal = () => {
   const [password, setPassword] = useState('');
   const [accionRealizada, setAccionRealizada] = useState(false);
   const [cancelado, setCancelado] = useState(false);
+  const auth = useAuth();
+ const wallet = useWallet();
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -16,9 +20,12 @@ const AddFundsModal = () => {
 
   const handleAceptar = () => {
     console.log("Monto:", monto);
-    console.log("Cuenta:", cuenta);
-    console.log("nombreDeLaEmpresa:", nombreDeLaEmpresa);
+    console.log(auth.user.username);
+    wallet.addFunds(monto, auth.user.username);
+    setMonto('');
+    setPassword('');
     setAccionRealizada(true);
+    toggleModal();
   };
 
   const handleCancelar = () => {
@@ -30,8 +37,8 @@ const AddFundsModal = () => {
   };
 
   const handleMontoChange = (event) => {
-    const value = event.target.value.replace(/\D/g, '');
-    setMonto('$' + value);
+    const value = event.target.value
+    setMonto(value);
   };
 
   return (
@@ -70,7 +77,7 @@ const AddFundsModal = () => {
                         className="block mt-5 h-8 w-full border-black rounded-md shadow-sm border-2 border-solid sm:text-sm p-1"
                       />
                       <input
-                        type="text"
+                        type="password"
                         placeholder="Ingrese su contraseña"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}

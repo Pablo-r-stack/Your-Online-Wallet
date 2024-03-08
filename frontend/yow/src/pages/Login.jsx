@@ -30,6 +30,7 @@ const Form = () => {
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(user);
       const response = await axios.post(`${API_URL}/yow/login`, user);
       if(response){
         console.log('Login succesful');
