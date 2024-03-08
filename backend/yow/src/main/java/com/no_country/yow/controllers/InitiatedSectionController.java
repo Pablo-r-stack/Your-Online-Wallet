@@ -2,6 +2,7 @@ package com.no_country.yow.controllers;
 
 import com.no_country.yow.dto.MovementDTO;
 import com.no_country.yow.dto.TransferContact;
+import com.no_country.yow.dto.TransferDTO;
 import com.no_country.yow.dto.VirtualWalletDTO;
 import com.no_country.yow.exceptions.YOWException;
 import com.no_country.yow.models.Contact;
@@ -78,6 +79,8 @@ public class InitiatedSectionController {
     /* --- Transferencias --- */
     // Añadir contacto a la virtual wallet para posteriormente poderle transferir
     // Se necesita el id del virtual wallet
+
+
     @PostMapping("/create-contact/{id}")
     public ResponseEntity<?> createContact(@RequestBody Contact contact, @PathVariable Long id) throws YOWException {
         // Busca la persona por number document
@@ -123,6 +126,15 @@ public class InitiatedSectionController {
         Person person = (Person) beanPerson.findByNumberDocument(numberDocument).getBody();
 
         return beanVirtualWallet.recharge(person, mount);
+    }
+
+    @PostMapping("/transfer/{idVirtualWallet}")
+    public ResponseEntity<?> transfer(@RequestBody TransferDTO transferDTO, @PathVariable Long idVirtualWallet) throws YOWException {
+
+        Person person = (Person) beanPerson.findByNumberDocument(transferDTO.getNumberDocument()).getBody();
+        VirtualWallet virtualWallet = (VirtualWallet) beanVirtualWallet.findById(idVirtualWallet).getBody();
+
+        return beanVirtualWallet.transfer(person, transferDTO.getMount(), virtualWallet);
     }
 
     public VirtualWallet virtualWalletFindById(Long id) throws YOWException {

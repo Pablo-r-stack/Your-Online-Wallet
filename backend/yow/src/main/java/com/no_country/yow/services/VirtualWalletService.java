@@ -115,6 +115,27 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
         }
         
     }
+    @Transactional
+    public ResponseEntity<?> transfer(Person person, Double mount, VirtualWallet virtualWallet){
+        try {
+            virtualWallet.setBalance(virtualWallet.getBalance() - mount); // Descuenta el dinero de la billetera principal
+
+            VirtualWallet virtualWalletReceptor = repository.virtualWalletByIdClient(person); // Obtiene el id de la billetera receptora
+            virtualWalletReceptor.setBalance(virtualWalletReceptor.getBalance() + mount); // Suma el monto
+
+            // Actualiza ambas billetaras
+            repository.save(virtualWallet);
+            repository.save(virtualWalletReceptor);
+
+            // Crea el movimiento en el historia y retorna una respuesta
+            Movement movement = new Movement(new Date(), mount, true, serviceService.findByName("Transferencia"), virtualWallet);
+            return ResponseEntity.ok().body("Transferencia Exitosa");
+        } catch (Exception e) {
+            log.info("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al transferir, intente mas tarde");
+        }
+    }
+
 
     @Transactional
     public ResponseEntity<?> transfer(Double mount, VirtualWallet virtualWallet){

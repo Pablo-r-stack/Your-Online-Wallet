@@ -19,4 +19,8 @@ public interface VirtualWalletRepository extends JpaRepository<VirtualWallet, Lo
     @Modifying
     @Query("UPDATE VirtualWallet vw SET vw.balance = ?2 WHERE vw.person = ?1")
     public void recharge(Person person, Double mount);
+
+    @Modifying
+    @Query("UPDATE VirtualWallet vw SET vw.balance = ?2 WHERE vw.person = ?1")
+    public void transfer(Person person, Double mount);
 }
