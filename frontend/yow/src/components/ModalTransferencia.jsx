@@ -1,11 +1,17 @@
 import React, { useState } from 'react';
 import Button3 from './btn/Button3';
+import { useAuth } from '../auth/AuthProvider';
+import { useWallet } from '../auth/WalletProvider';
 
 const ModalTransferencia = () => {
-
+  const auth = useAuth();
+  const wallet = useWallet();
   const [isOpen, setIsOpen] = useState(false);
-  const [monto, setMonto] = useState('');
-  const [cuenta, setCuenta] = useState('');
+  const [userReciever, setUserReciever] = useState({
+    numberDocument: '',
+    mount: ''
+  });
+
   const [accionRealizada, setAccionRealizada] = useState(false);
 
   const toggleModal = () => {
@@ -15,17 +21,20 @@ const ModalTransferencia = () => {
 
   const handleAceptar = () => {
     // Aquí puedes realizar las acciones necesarias con el monto y la cuenta
-    console.log("Monto:", monto);
-    console.log("Cuenta:", cuenta);
-    // toggleModal();
+    
+    const username = auth.user.username;
+    console.log(username);
+    wallet.mountTransfer(username, userReciever);
+    setUserReciever({
+      numberDocument: '',
+      mount: ''
+    });
+    toggleModal();
     setAccionRealizada(true);
   };
 
-  const handleMontoChange = (event) => {
-    // Eliminamos caracteres que no sean números
-    const value = event.target.value.replace(/\D/g, '');
-    // Agregamos el símbolo de pesos al valor
-    setMonto('$' + value);
+  const onInputChange = (e) => {
+    setUserReciever({ ...userReciever, [e.target.name]: e.target.value });
   };
 
 
@@ -62,15 +71,17 @@ const ModalTransferencia = () => {
                       <input
                         type="text"
                         placeholder="Monto a transferir"
-                        value={monto}
-                        onChange={handleMontoChange}
+                        value={userReciever.mount}
+                        onChange={(e) => onInputChange(e, 'mount')}
+                        name="mount"
                         className="block mt-5 h-8 w-1/2 border-black   rounded-md shadow-sm border-2 border-solid sm:text-sm p-1"
                       />
                       <input
                         type="text"
                         placeholder="Cuenta o alias"
-                        value={cuenta}
-                        onChange={(e) => setCuenta(e.target.value)}
+                        value={userReciever.numberDocument}
+                        onChange={(e) => onInputChange(e, 'numberDocument')}
+                        name="numberDocument"
                         className="block mt-2 h-8 w-1/2 border-black rounded-md shadow-sm border-2 border-solid sm:text-sm uppercase p-1"
                       />
                     </div>
