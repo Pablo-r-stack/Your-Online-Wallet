@@ -24,7 +24,7 @@ const Navbar1 = () => {
         :
         (
           <div className="flex space-x-4 items-center">
-            <Link to="/" className="text-gray-100 hover:text-gray-300">Home</Link>
+            <Link to="/dashboard" className="text-gray-100 hover:text-gray-300">Dashboard</Link>
             <Link to="/login" className="text-gray-100 hover:text-gray-300"><DropdownUser /></Link>
           </div>
         )

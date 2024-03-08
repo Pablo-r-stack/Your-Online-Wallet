@@ -9,6 +9,8 @@ import { AuthProvider } from './auth/AuthProvider'
 import Navbar1 from './components/Navbar1'
 import Footer from './components/Footer'
 import Dashboard from './pages/Dashboard';
+import ChangePassword from './pages/ChangePassword'
+
 
 
 
@@ -25,6 +27,9 @@ function App() {
           <Route path="/register" element={<Register />} />
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
+          </Route>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/change-password" element={<ChangePassword />} />
           </Route>
         </Routes>
         <Footer />

@@ -36,7 +36,17 @@ function DashboardContent() {
       <div className='my-4'>
         <h3 className='font-semibold text-2xl'>Movimientos:</h3>
         {movements && movements.map((movement) => ( //Falta operador ternario para validar estado de la transaccion (pendiente recibir del back dicho atributo)
-           <Movements transaction={movement.id.service == 'Recarga' ? 'Ingresaste Dinero' : 'Transferiste Dinero'} ammount={movement.mount} date={movement.date} />
+          <Movements
+            transaction={
+              movement.id.service == 'Recarga'
+                ? 'Ingresaste Dinero'
+                : movement.id.service == 'Transferencia'
+                  ? 'Transferiste Dinero'
+                  : 'Pago de Servicio'
+            }
+            ammount={movement.mount}
+            date={movement.date}
+          />
         ))}
       </div>
     </div>

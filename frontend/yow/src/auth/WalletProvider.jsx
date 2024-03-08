@@ -67,8 +67,28 @@ export const WalletProvider = ({ children }) => {
     }
   }
 
+  const servicePay = async (amount, numberDocument) => {
+    try {
+      const token = localStorage.getItem('token');
+      const config = {
+        headers: { Authorization: `Bearer ${token}` }
+      };
+      console.log('Requesting authorization to server');
+      console.log('Authorization granted');
+      const response = await axios.post(`${API_URL}/initiated/service-pay/${numberDocument}`, null, {
+        ...config,
+        params: { mount: amount } // Pasar el monto como un parámetro en la URL
+      });
+      console.log('Server response succeed');
+      console.log('Payment done');
+      getAccount();
+    } catch (error) {
+      console.log('Something went wrong');
+    }
+  }
+
   return (
-    <WalletContext.Provider value={{ getAccount, getWallet, wallet, addFunds, mountTransfer }}>
+    <WalletContext.Provider value={{ getAccount, getWallet, wallet, addFunds, mountTransfer, servicePay }}>
       {children}
     </WalletContext.Provider>
   );

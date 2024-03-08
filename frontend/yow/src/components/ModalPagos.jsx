@@ -1,13 +1,17 @@
 import React, { useState } from 'react';
 import Button3 from './btn/Button3';
+import { useAuth } from '../auth/AuthProvider';
+import { useWallet } from '../auth/WalletProvider';
 
 const ModalPagos = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [monto, setMonto] = useState('');
   const [nombreDeLaEmpresa, setNombre] = useState('');
-  const [cuenta, setCuenta] = useState('');
+  // const [cuenta, setCuenta] = useState('');
   const [accionRealizada, setAccionRealizada] = useState(false);
   const [cancelado, setCancelado] = useState(false);
+  const auth = useAuth();
+  const wallet = useWallet();
 
   const toggleModal = () => {
     setIsOpen(!isOpen);
@@ -17,9 +21,11 @@ const ModalPagos = () => {
 
   const handleAceptar = () => {
     console.log("Monto:", monto);
-    console.log("Cuenta:", cuenta);
-    console.log("nombreDeLaEmpresa:", nombreDeLaEmpresa);
+    wallet.servicePay(monto, auth.user.username);
+    setMonto('');
+    setNombre('');
     setAccionRealizada(true);
+    toggleModal();
   };
 
   const handleCancelar = () => {
@@ -31,8 +37,8 @@ const ModalPagos = () => {
   };
 
   const handleMontoChange = (event) => {
-    const value = event.target.value.replace(/\D/g, '');
-    setMonto('$' + value);
+    const value = event.target.value
+    setMonto(value);
   };
 
   return (
@@ -70,13 +76,13 @@ const ModalPagos = () => {
                         onChange={handleMontoChange}
                         className="block mt-5 h-8 w-full border-black rounded-md shadow-sm border-2 border-solid sm:text-sm p-1"
                       />
-                      <input
+                      {/* <input
                         type="text"
-                        placeholder="Cuil de la empresa"
+                        placeholder="(tu documento)"
                         value={cuenta}
                         onChange={(e) => setCuenta(e.target.value)}
                         className="block mt-2 h-8 w-full border-black rounded-md shadow-sm border-2 border-solid sm:text-sm uppercase p-1"
-                      />
+                      /> */}
                       <input
                         type="text"
                         placeholder="Nombre de la empresa"
