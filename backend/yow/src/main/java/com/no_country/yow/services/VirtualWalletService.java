@@ -116,8 +116,9 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
         
     }
     @Transactional
-    public ResponseEntity<?> transfer(Person person, Double mount, VirtualWallet virtualWallet){
+    public ResponseEntity<?> transfer(Person person, Double mount, Person personTransfer){
         try {
+            VirtualWallet virtualWallet = repository.virtualWalletByIdClient(personTransfer); // Obtiene a la persona que va transferir
             virtualWallet.setBalance(virtualWallet.getBalance() - mount); // Descuenta el dinero de la billetera principal
 
             VirtualWallet virtualWalletReceptor = repository.virtualWalletByIdClient(person); // Obtiene el id de la billetera receptora

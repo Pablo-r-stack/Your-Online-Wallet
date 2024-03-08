@@ -128,13 +128,13 @@ public class InitiatedSectionController {
         return beanVirtualWallet.recharge(person, mount);
     }
 
-    @PostMapping("/transfer/{idVirtualWallet}")
-    public ResponseEntity<?> transfer(@RequestBody TransferDTO transferDTO, @PathVariable Long idVirtualWallet) throws YOWException {
+    @PostMapping("/transfer/{numberDocument}")
+    public ResponseEntity<?> transfer(@RequestBody TransferDTO transferDTO, @PathVariable String numberDocument) throws YOWException {
 
-        Person person = (Person) beanPerson.findByNumberDocument(transferDTO.getNumberDocument()).getBody();
-        VirtualWallet virtualWallet = (VirtualWallet) beanVirtualWallet.findById(idVirtualWallet).getBody();
+        Person personReceptora = (Person) beanPerson.findByNumberDocument(transferDTO.getNumberDocument()).getBody();
+        Person personTransfer = (Person) beanPerson.findByNumberDocument(numberDocument).getBody();
 
-        return beanVirtualWallet.transfer(person, transferDTO.getMount(), virtualWallet);
+        return beanVirtualWallet.transfer(personReceptora, transferDTO.getMount(), personTransfer);
     }
 
     public VirtualWallet virtualWalletFindById(Long id) throws YOWException {
