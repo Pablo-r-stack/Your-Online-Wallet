@@ -31,7 +31,7 @@ export default function DropdownUser() {
                 <p className="text-sm font-medium leading-5 text-gray-900 truncate">{user.username}</p>
               </div>
               <div className="py-1">
-                <p>Cambiar contraseña</p>
+                <Link to="/change-password" tabIndex="2" className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left" role="menuitem">Cambiar contraseña</Link>
                 <Link to="/faq" tabIndex="2" className="text-gray-700 flex justify-between w-full px-4 py-2 text-sm leading-5 text-left" role="menuitem" >Acerca de</Link>
               </div>
               <div className="py-1">

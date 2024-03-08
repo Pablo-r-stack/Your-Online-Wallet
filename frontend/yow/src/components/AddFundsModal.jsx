@@ -25,6 +25,7 @@ const AddFundsModal = () => {
     setMonto('');
     setPassword('');
     setAccionRealizada(true);
+    alert('Tu recarga fue confirmada!');
     toggleModal();
   };
 

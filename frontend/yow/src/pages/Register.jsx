@@ -57,6 +57,7 @@ const Register = () => {
       try {
         const response = await axios.post(`http://localhost:8080/yow/save-register`, person);
           console.log('Register Succesfull');
+          alert('Registro exitoso! Por favor inicia sesión', 'Éxito');
           navigate("/login");
       } catch (error) {
         console.log(error);

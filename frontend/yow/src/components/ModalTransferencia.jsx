@@ -21,7 +21,16 @@ const ModalTransferencia = () => {
 
   const handleAceptar = () => {
     // Aquí puedes realizar las acciones necesarias con el monto y la cuenta
-    
+    const {balance} = wallet.getWallet();
+    console.log(balance);
+    if (balance < userReciever.mount) {
+      alert('Tu saldo es insuficiente, por favor recarga e intentalo nuevamente');
+      setUserReciever({
+        numberDocument: '',
+        mount: ''
+      });
+      return; // Detener la ejecución si el saldo es insuficiente
+    }
     const username = auth.user.username;
     console.log(username);
     wallet.mountTransfer(username, userReciever);
@@ -29,6 +38,7 @@ const ModalTransferencia = () => {
       numberDocument: '',
       mount: ''
     });
+    alert('Tu transferencia fue enviada!');
     toggleModal();
     setAccionRealizada(true);
   };

@@ -20,13 +20,21 @@ const ModalPagos = () => {
   };
 
   const handleAceptar = () => {
-    console.log("Monto:", monto);
-    wallet.servicePay(monto, auth.user.username);
-    setMonto('');
-    setNombre('');
-    setAccionRealizada(true);
-    toggleModal();
-  };
+    const {balance} = wallet.getWallet();
+    console.log(balance);
+    if (balance < monto) {
+      alert('Tu saldo es insuficiente, por favor recarga e intentalo nuevamente');
+      setMonto('');
+      setNombre('');
+      return; // Detener la ejecución si el saldo es insuficiente
+    }
+      wallet.servicePay(monto, auth.user.username);
+      setMonto('');
+      setNombre('');
+      setAccionRealizada(true);
+      alert('Pago realizado!');
+      toggleModal();
+    };
 
   const handleCancelar = () => {
     setTimeout(() => {
