@@ -137,6 +137,14 @@ public class InitiatedSectionController {
         return beanVirtualWallet.transfer(personReceptora, transferDTO.getMount(), personTransfer);
     }
 
+    @PostMapping("/service-pay/{numberDocument}")
+    public ResponseEntity<?> servicePay(@PathVariable("numberDocument") String numberDocument, @RequestParam("mount") Double mount) {
+
+        Person person = (Person) beanPerson.findByNumberDocument(numberDocument).getBody();
+
+        return beanVirtualWallet.servicePay(person, mount);
+    }
+
     public VirtualWallet virtualWalletFindById(Long id) throws YOWException {
         // Busca el virtual wallet por id, si no existe lanza una excepcion
         VirtualWallet virtualWallet = new VirtualWallet();

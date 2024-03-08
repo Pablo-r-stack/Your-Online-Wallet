@@ -115,6 +115,24 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
         }
         
     }
+
+    @Transactional
+    public ResponseEntity<?> servicePay(Person person, Double mount){
+
+        try {
+
+            VirtualWallet vw = (VirtualWallet) findByIdClient(person).getBody();
+            repository.recharge(person, vw.getBalance() - mount);
+            Movement movement = new Movement(new Date(), mount, true,serviceService.findByName("Pago de servicio"),((VirtualWallet) findByIdClient(person).getBody()));
+            movementService.save(movement);
+            return ResponseEntity.ok().body("Pago de Servicio Exitoso");
+        } catch (Exception e) {
+            log.info("Error: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Error al recargar, intente mas tarde");
+        }
+
+    }
+
     @Transactional
     public ResponseEntity<?> transfer(Person person, Double mount, Person personTransfer){
         try {
