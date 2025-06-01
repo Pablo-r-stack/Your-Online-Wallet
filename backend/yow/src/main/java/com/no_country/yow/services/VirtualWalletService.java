@@ -148,6 +148,7 @@ public class VirtualWalletService implements CRUDServices<VirtualWallet, Long> {
 
             // Crea el movimiento en el historia y retorna una respuesta
             Movement movement = new Movement(new Date(), mount, true, serviceService.findByName("Transferencia"), virtualWallet);
+            movementService.save(movement);
             return ResponseEntity.ok().body("Transferencia Exitosa");
         } catch (Exception e) {
             log.info("Error: " + e.getMessage());

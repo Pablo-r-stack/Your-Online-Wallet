@@ -41,10 +41,9 @@ public class HomeController {
   public ResponseEntity<?> saveRegister(@RequestBody Person person) throws YOWException {
     System.out.println(person.toString());
     return beanPerson.save(person);
-
   }
 
-  @PostMapping("/login/change-password")
+  @PostMapping("/change-password")
   public ResponseEntity<?> changePassword(@RequestParam("numDocument") String numDocument, @RequestParam("password") String newPassword) throws YOWException {
 
     return beanPerson.updatePassword(numDocument,newPassword);

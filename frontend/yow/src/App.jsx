@@ -35,7 +35,6 @@ function App() {
         <Footer />
       </Router>
     </AuthProvider>
-
   )
 }
 
